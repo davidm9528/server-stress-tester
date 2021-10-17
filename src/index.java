@@ -1,5 +1,5 @@
 class index{
 
     public index(){}
-    
+
 }
