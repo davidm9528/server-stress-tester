@@ -16,7 +16,6 @@ When the server crashes, you may find this out by response transfer speed decrea
 In addition, the server may report errors.
 
 Where possible: 
-
 - Configure the NUMBER and TIMING of requests
 - Report on the server's performance
 - Possible to configure the content of the messages to be exchanged.
