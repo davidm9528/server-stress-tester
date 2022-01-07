@@ -1,5 +1,0 @@
-class index{
-
-    public index(){}
-
-}
