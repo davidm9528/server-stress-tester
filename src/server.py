@@ -7,7 +7,7 @@ import time
 #
 if __name__ == "__main__":
     ip = "0.0.0.0"
-    port = 4455
+    port = 9988
     buffer = 102400
 
 #IPV4, TCP, create socket and bind to address
