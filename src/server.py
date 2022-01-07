@@ -5,6 +5,7 @@ import time
 if __name__ == "__main__":
     ip = "0.0.0.0"
     port = 3344
+    buffer = 102400
 
 #IPV4, TCP, create socket and bind to address
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -32,9 +33,18 @@ timestamp = -1
 totalrcvs = 0
 
 while True:
-
     client, address = server.accept()
     print(f"Connection Established - {address[0]}:{address[1]}")
+    data, address = server.recvfrom(buffer)
+
+    if not data:
+        print("No data entered")
+        break
+    else:
+        finishedstamp = time.time()
+        data = len(data)
+        totalbytes += data
+        totalrcvs += 1
 
     #1024 # of bytes server will recieve
     string = client.recv(1024)
