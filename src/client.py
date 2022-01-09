@@ -20,8 +20,9 @@ print("\nTarget: ")
 print("server.py running on %s port %s" % (ip, port))
 print("-" * 60)
 
+checker = 1
 
-while (1):
+while (checker == 1):
     data = input('% ')
     args = data.split()
 
@@ -46,15 +47,16 @@ while (1):
                 
                 for x in range(numtimes):
                     if(serverudp.send(data.encode())):
-                        print("*", end = ' ')
-                      #  time.sleep(0.5)
+                        print("*", end = '\n')
+                        time.sleep(0.5)
                         
                     elif x not in range(numtimes):
                         print(".")
-                        #added slight sleep just so i dont overload the socket (.5 seconds)
+                        #added slight sleep just so i dont overload the socket (.5)
                         time.sleep(0.5)
                         print("Done")
                         
             except:
                 print("Send failed!")
-    serverudp.close()
+checker = 2
+serverudp.close()
