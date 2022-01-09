@@ -1,46 +1,47 @@
-from ctypes import addressof
+from socket import *
 import socket
 import time
 
 #
 #CHANGE PORT ON RUNS ON BOTH FILES (CLIENT)
 #
-if __name__ == "__main__":
-    ip = "0.0.0.0"
-    port = 9988
-    buffer = 102400
 
-#IPV4, TCP, create socket and bind to address
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((ip,port))
+ip = "localhost"
+port = 1010
+buffer = 102400
 
-#listen for 5 Clients (will refuse if 5+ clients try to connect)
-server.listen(5)
+#create socket and bind to address
+serverudp = socket.socket(AF_INET,SOCK_DGRAM)
+serverudp.bind((ip,port))
+
+#listen for 1 Clients (will refuse if 1+ clients try to connect)
+#serverudp.listen(1)
 
 #formatting
+time.time()
 print("\n")
 print("-" * 60)
 print("server.py")
 print("-" * 60)
-print  ("Starting TCP receive server...  control-break to exit.")
+print  ("Starting UDP receive server...  control-break to exit.")
 print  ("\nWaiting for data...")
 print("-" * 60)
 
 # total bytes recieved since last 'reset'
 totalbytes = 0
-
 # -1 is a deliberately invalid timestamp
 timestamp = -1
-
 # the total number of bursts that have come in
 totalrcvs = 0
 
-while True:
-    client, address = server.accept()
-    print(f"Connection Established - {address[0]}:{address[1]}")
+data, address = serverudp.recvfrom(buffer)
+print(f"Connection Established - {address[0]}:{address[1]}")
+print("-" * 60)
+while (1):
     
-    #Will call this from client.py / not yet implemented
-    data, address = server.recvfrom(buffer)
+    #will call this from client.py / not yet implemented (hehe)
+    data, address = serverudp.recvfrom(buffer)
+    #print(f"Connection Established - {address[0]}:{address[1]}")
 
     if not data:
         print("No data entered")
@@ -50,15 +51,17 @@ while True:
         data = len(data)
         totalbytes += data
         totalrcvs += 1
+        seconds = finishedstamp - timestamp
 
-#displayign number of bytes sent kbps
+        #displaying number of bytes sent kbps
         rate = totalbytes/(finishedstamp - timestamp) * 8 / 1000
-        print("\nRcvd: %s bytes, %s total in %s s at %s kbps") % (data, totalbytes, finishedstamp - timestamp, rate)
+       
+        print("Rcvd: %s bytes, %s total in %ss at %s kbps" % (data, totalbytes, seconds, rate))
 
-    #1024 # of bytes server will recieve
-    string = client.recv(1024)
-
-    string = string.decode("utf-8")
-    print(string)
-
-    client.close()
+        #reset
+        if data == True:
+            totalbytes = 0
+            timestamp = time.time()
+            totalrcvs = 0
+            print("*Reset* - clearing stats.")
+serverudp.close()
