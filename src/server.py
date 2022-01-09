@@ -1,6 +1,7 @@
 from socket import *
 import socket
 import time
+from datetime import datetime
 
 #
 #CHANGE PORT ON RUNS ON BOTH FILES (CLIENT)
@@ -24,7 +25,7 @@ print("-" * 60)
 print("server.py")
 print("-" * 60)
 print  ("Starting UDP receive server...  control-break to exit.")
-print  ("\nWaiting for data...")
+print  ("\nWaiting for data (client.py)...")
 print("-" * 60)
 
 # total bytes recieved since last 'reset'
@@ -35,6 +36,11 @@ timestamp = -1
 totalrcvs = 0
 
 data, address = serverudp.recvfrom(buffer)
+
+dateTimeObj = datetime.now()
+timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+print('Current Timestamp : ', timestampStr)
+
 print(f"Connection Established - {address[0]}:{address[1]}")
 print("-" * 60)
 while (1):
@@ -47,17 +53,20 @@ while (1):
         print("No data entered")
         break
     else:
+        
         finishedstamp = time.time()
+        
         data = len(data)
         totalbytes += data
         totalrcvs += 1
-        seconds = finishedstamp - timestamp
 
         #displaying number of bytes sent kbps
+        # * 8 /1000 for 8 bits in a byte
         rate = totalbytes/(finishedstamp - timestamp) * 8 / 1000
        
-        print("Rcvd: %s bytes, %s total in %ss at %s kbps" % (data, totalbytes, seconds, rate))
+        print("Rcvd: %s bytes, %s total in %s at %s kbps" % (data, totalbytes, (finishedstamp - timestamp), rate))
 
+        #Send 1 single byte to clear stats
         #reset
         if data == True:
             totalbytes = 0
