@@ -58,5 +58,13 @@ while (checker == 1):
                         
             except:
                 print("Send failed!")
+                
+                """
+                    The maximum payload size of a UDP packet is **65,507** bytes. 
+                    To send more than 65,507 bytes, I'll need to split the data up across multiple UDP packets
+                    (or use TCP instead).
+                    
+                """
+                
 checker = 2
 serverudp.close()

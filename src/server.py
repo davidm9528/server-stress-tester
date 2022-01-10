@@ -28,6 +28,7 @@ print  ("Starting UDP receive server...  control-break to exit.")
 print  ("\nWaiting for data (client.py)...")
 print("-" * 60)
 
+
 # total bytes recieved since last 'reset'
 totalbytes = 0
 # -1 is a deliberately invalid timestamp
@@ -37,11 +38,13 @@ totalrcvs = 0
 
 data, address = serverudp.recvfrom(buffer)
 
+information = socket.getaddrinfo(ip, port, family=AF_INET, proto=AF_INET)
+
+print("-Connection Established-")
 dateTimeObj = datetime.now()
 timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-print('Current Timestamp : ', timestampStr)
-
-print(f"Connection Established - {address[0]}:{address[1]}")
+print("Current Timestamp : ", timestampStr)
+print("Server Info: ", information)
 print("-" * 60)
 while (1):
     
