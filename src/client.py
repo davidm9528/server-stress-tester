@@ -1,16 +1,10 @@
+from csv import Sniffer
 import socket
 from socket import *
 import string
 import time
-
-# pyshark
-
-# scapy - Using this (I think)
-"""sumary_line
-from scapy.all import wrpcap, Ether, IP, UDP
-packet = Ether() / IP(dst="127.0.0.1") / UDP(dport=1010)
-wrpcap('foo.pcap', [packet])
-"""
+#import pyshark
+#import pings
 
 ip = "127.0.0.1"
 port = 1010
@@ -35,9 +29,8 @@ checker = 1
 
 #def socket_error_handler(exception, socket):
 
-
 while checker == 1:
-    data = input('% ')
+    data = input('\n% ')
     args = data.split()
 
     try:
@@ -61,13 +54,14 @@ while checker == 1:
 
             for x in range(numtimes):
                 if serverudp.send(data.encode()):
-                    print("*", end='\n')
-                    time.sleep(0.5)
+                    print("*", sep=' ', end=' ', flush=True)
+                    #time.sleep(0.5)
+                      
 
                 elif x not in range(numtimes):
                     print(".")
                     # added slight sleep just so i don't overload the socket (.5)
-                    time.sleep(0.5)
+                    #time.sleep(0.5)
                     print("Done")
 
         except OSError as err:
@@ -82,4 +76,9 @@ while checker == 1:
                 """
 
 checker = 2
+"""
+#Scapy
+Sniffer(filter="ip", prn=lambda x:x.sprintf("{IP:%IP.src% -> %IP.dst%\n}"))
+***MIGHT BE USED IN FUTURE, NOT SURE ON SCAPY***
+"""
 serverudp.close()
