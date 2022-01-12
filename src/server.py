@@ -66,8 +66,8 @@ while (1):
         #displaying number of bytes sent kbps
         # * 8 /1000 for 8 bits in a byte
         rate = totalbytes/(finishedstamp - timestamp) * 8 / 1000
-       
-        print("Rcvd: %s bytes, %s total in %s at %s kbps" % (data, totalbytes, (finishedstamp - timestamp), rate))
+
+        print("Rcvd: %s bytes, %s total in %ss at %skbps" % (data, totalbytes, finishedstamp - timestamp, rate))
 
         #Send 1 single byte to clear stats
         #reset
