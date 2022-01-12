@@ -1,22 +1,15 @@
-import logging
+import pyshark
+#tshark - pyshark - wireshark
 
-from scapy.layers.inet import IP, UDP
-from scapy.sendrecv import sr1
-logging.getLogger("Scapy.runtime").setLevel(logging.ERROR)
-import time
-import sys
+#Need to fix import for testing
+#Scanner class will eventually be used to automatically check packets transfered over a specific connection
+#Filtering will also be implemented
 
-if len(sys.argv) != 4:
-    print("Usage: scanner.py <ip> <startport> <end-port>")
-    sys.exit()
-
-ip=sys.argv[1]
-start=int(sys.argv[[2]])
-end=int(sys.argv[3])
-
-for port in range(start, end):
-    ans=sr1(IP(dst=ip)/UDP(dport=port), timeout=5, verbose=0)
-    if ans==None:
-        print(port)
-    else:
-        pass
+def print_live_cap():
+    capture = pyshark.LiveCapture(interface="***INTERFACE NAME***")
+    for packet in capture:
+        if "DNS" in packet and not packet.dns.flags_response.int_value:
+            print(packet.dns.qry_name)
+            
+if __name__ == "__main__":
+    print_live_cap()
