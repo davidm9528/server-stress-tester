@@ -1,3 +1,4 @@
+import socket
 from socket import *
 import string
 import time
@@ -26,10 +27,14 @@ print("client.py")
 print("-" * 60)
 print("Starting client, press ctrl+c to end.")
 print("\nTarget: ")
+
 print("server.py running on %s port %s" % (ip, port))
 print("-" * 60)
 
 checker = 1
+
+#def socket_error_handler(exception, socket):
+
 
 while checker == 1:
     data = input('% ')
@@ -65,12 +70,13 @@ while checker == 1:
                     time.sleep(0.5)
                     print("Done")
 
-        except:
-            print("Send failed!")
+        except OSError as err:
+            print("**Connection Error**:\n-Please check the below message-\n%s" % err)
+            #print("Send failed!")
 
             """
                     The maximum payload size of a UDP packet is **65,507** bytes. 
-                    To send more than 65,507 bytes, I'll need to split the data up across multiple UDP packets
+                    To send more than 65507 bytes, I'll need to split the data up across multiple UDP packets
                     (or use TCP instead).
                     
                 """
