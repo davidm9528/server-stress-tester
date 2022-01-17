@@ -9,10 +9,11 @@ import time
 ip = "127.0.0.1"
 port = 1010
 
-serverudp = socket(AF_INET, SOCK_DGRAM)
+#tcp
+s = socket(AF_INET, SOCK_STREAM)
 
 # Connect with above IP and Port
-serverudp.connect((ip, port))
+s.connect((ip, port))
 
 # formatting
 print("\n")
@@ -50,12 +51,12 @@ while checker == 1:
     else:
         try:
             data_bytes = bytes(data, 'ascii')
-            serverudp.send(data.encode())
+            s.send(data.encode())
 
             for x in range(numtimes):
-                if serverudp.send(data.encode()):
+                if s.send(data.encode()):
                     print("*", sep=' ', end=' ', flush=True)
-                    #time.sleep(0.5)
+                    time.sleep(0.5)
                       
 
                 elif x not in range(numtimes):
@@ -76,9 +77,4 @@ while checker == 1:
                 """
 
 checker = 2
-"""
-#Scapy
-Sniffer(filter="ip", prn=lambda x:x.sprintf("{IP:%IP.src% -> %IP.dst%\n}"))
-***MIGHT BE USED IN FUTURE, NOT SURE ON SCAPY***
-"""
-serverudp.close()
+s.close()
