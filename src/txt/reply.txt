@@ -1,0 +1,290 @@
+<assignment endtime="23:59" resubmit="true"  assessed="no" practice="no" number="Practical1" graphwidth="" graphheight="" pin="no" passwordneeded="no" >
+<studentnumber></studentnumber>
+<idname>practicaldavid.id</idname>
+<serverversion>410</serverversion><modulecode>CSC1026</modulecode>
+<moduletitle>Fundamentals of Mathematics for Computing</moduletitle>
+<introduction>\sboldAlgebra\ebold
+
+The purpose of this practical is to help you in your study of the Algebra chapter.
+The practical is not assessed, which also means that you can mark your answers now
+and find out immediately whether you are right.
+
+Whether your answers were correct or not you should still save and submit them to the
+Canvas Assignment named Practical 1. In this way you will get a permanent record
+of the practical (through Canvas), and also you will see how submission works
+in preparation for the assessed practicals.
+	</introduction>
+<question>
+<qtext>This question concerns identifying possible types for the numbers -1, 0, 1, 2, -5, 2/3,  and 4.5
+Remember that a given number may be of more than one type.</qtext>
+<module></module>
+<preamble></preamble>
+<syntax>null</syntax>
+<atext>3</atext>
+<atext>7</atext>
+<part marks="1" answerkind="">
+<ptext>How many of these numbers are of type \srednatural number\ered?</ptext>
+<preamble></preamble>
+<syntax>3</syntax>
+<syntaxtext>Enter a number which is a count of the valid values.</syntaxtext>
+<atext>3</atext>
+</part>
+<part marks="1" answerkind="">
+<ptext>How many of these numbers are of type \sredreal\ered?</ptext>
+<preamble></preamble>
+<syntax>7</syntax>
+<syntaxtext>Enter a number which is a count of the valid values.</syntaxtext>
+<atext>7</atext>
+</part>
+</question>
+<question>
+<qtext>In each part of this question you are asked to evaluate an expression.</qtext>
+<module></module>
+<preamble></preamble>
+<syntax>null</syntax>
+<atext>15</atext>
+<atext>10</atext>
+<atext>2</atext>
+<part marks="1" answerkind="">
+<ptext> 2+3 * 3+4</ptext>
+<preamble></preamble>
+<syntax>1</syntax>
+<syntax>1.3</syntax>
+<syntax>-1.3</syntax>
+<syntaxtext>Enter the value of x</syntaxtext>
+<atext>15</atext>
+</part>
+<part marks="1" answerkind="">
+<ptext>3**2+1</ptext>
+<preamble></preamble>
+<syntax>10</syntax>
+<syntax>1.3</syntax>
+<syntax>-1.3</syntax>
+<syntaxtext>Enter the value of x</syntaxtext>
+<atext>10</atext>
+</part>
+<part marks="1" answerkind="">
+<ptext>8 ** (1/3)</ptext>
+<preamble></preamble>
+<syntax>1</syntax>
+<syntax>1.3</syntax>
+<syntax>-1.3</syntax>
+<syntaxtext>Enter the value of x</syntaxtext>
+<atext>2</atext>
+</part>
+</question>
+<question>
+<qtext>In each part of the following question, the variable \sredx\ered stands for a different value.
+In each case, give the value of x. There may be more than one possible answer, in which case any correct
+answer will be accepted.</qtext>
+<module></module>
+<preamble></preamble>
+<syntax>null</syntax>
+<atext>2</atext>
+<atext>2</atext>
+<atextf>(%1)**4 =16</atextf>
+<part marks="1" answerkind="">
+<ptext>x ** 4 = 16</ptext>
+<preamble></preamble>
+<syntax>2</syntax>
+<syntax>-2</syntax>
+<syntax>1.3</syntax>
+<syntax>-1.3</syntax>
+<syntaxtext>Enter the value of x</syntaxtext>
+<atext>2</atext>
+<atextf>(%1)**4 =16</atextf>
+</part>
+<part marks="1" answerkind="">
+<ptext>x + 5 = 3 * x + 1</ptext>
+<preamble></preamble>
+<syntax>1</syntax>
+<syntax>1.3</syntax>
+<syntax>-1.3</syntax>
+<syntaxtext>Enter the value of x</syntaxtext>
+<atext>2</atext>
+</part>
+</question>
+<question>
+<qtext>This question concerns the evaluation of some simple arithmetic expressions involving the operators \sreddiv\ered
+and \sredmod\ered.
+		</qtext>
+<module>values b=1;m=1;d=1;</module>
+<preamble></preamble>
+<syntax>null</syntax>
+<atext>3</atext>
+<atext>37</atext>
+<part marks="1" answerkind="">
+<ptext>Evaluate 23 mod 5</ptext>
+<preamble></preamble>
+<syntax>3</syntax>
+<syntaxtext>Enter a number.</syntaxtext>
+<atext>3</atext>
+</part>
+<part marks="1" answerkind="">
+<ptext>Suppose that x div 11 = 3 and x mod 11 = 4. What is the value of x?</ptext>
+<preamble></preamble>
+<syntax>37</syntax>
+<syntaxtext>Enter a number.</syntaxtext>
+<atext>37</atext>
+</part>
+</question>
+<question>
+<qtext>This question involves finding a value for a variable. In each case find a value for \sitalicx\eitalic which makes the given expression true.
+Note that there may be more than one possible answer.
+		</qtext>
+<module></module>
+<preamble></preamble>
+<syntax>null</syntax>
+<atext>4</atext>
+<atext>[1,4,4]</atext>
+<atextf>let x=(%1) in ((x+2)*(x-2) = 12)</atextf>
+<atextf>let x=(%1) in x(2,...,3) = [4,4]</atextf>
+<part marks="1" answerkind="">
+<ptext>(x+2)*(x-2) = 12
+</ptext>
+<preamble></preamble>
+<syntax>3</syntax>
+<syntax>-3</syntax>
+<syntaxtext>Enter a number.</syntaxtext>
+<atext>4</atext>
+<atextf>let x=(%1) in ((x+2)*(x-2) = 12)</atextf>
+</part>
+<part marks="1" answerkind="">
+<ptext>x(2,...,3) = [4,4]</ptext>
+<preamble></preamble>
+<syntax>[1,4,4]</syntax>
+<syntaxtext>Think what type of object x must be.</syntaxtext>
+<atext>[1,4,4]</atext>
+<atextf>let x=(%1) in x(2,...,3) = [4,4]</atextf>
+</part>
+</question>
+<question>
+<qtext>This question concerns some statements about natural numbers and integers.
+		For each statement, say whether it is true or false.
+		</qtext>
+<module></module>
+<preamble></preamble>
+<syntax>null</syntax>
+<atext>true</atext>
+<atext>false</atext>
+<part marks="1" answerkind="">
+<ptext>-1 is an integer</ptext>
+<preamble></preamble>
+<syntax>true</syntax>
+<syntaxtext>Enter true or false.</syntaxtext>
+<atext>true</atext>
+</part>
+<part marks="1" answerkind="">
+<ptext>1.5 is a natural number</ptext>
+<preamble></preamble>
+<syntax>false</syntax>
+<syntaxtext>Enter true or false.</syntaxtext>
+<atext>false</atext>
+</part>
+</question>
+<question>
+<qtext>Give the value defined by the following sigma expressions, where M is a natural number.</qtext>
+<module>values M=1;</module>
+<preamble>\forall M \inset {1, 5, 10} \middledot</preamble>
+<syntax>null</syntax>
+<atext>10</atext>
+<atext>(M*(M+1))/2</atext>
+<atextf>(%1) = ((M*(M+1))/2)</atextf>
+<part marks="1" kind="sigma" isproduct="no">
+<ptext></ptext>
+<preamble></preamble>
+<syntaxtext>Enter a numeric value.</syntaxtext>
+<atext>10</atext>
+<before>i</before>
+<variable>i</variable>
+<lower>1</lower>
+<upper>4</upper>
+<summand>i</summand>
+<after></after>
+</part>
+<part marks="1" kind="sigma" isproduct="no">
+<ptext></ptext>
+<preamble>\forall M \inset {1, 5, 10} \middledot</preamble>
+<syntaxtext>Enter a numeric value involving M.</syntaxtext>
+<atext>(M*(M+1))/2</atext>
+<atextf>(%1) = ((M*(M+1))/2)</atextf>
+<before>i</before>
+<variable>i</variable>
+<lower>1</lower>
+<upper>M</upper>
+<summand>i</summand>
+<after></after>
+</part>
+</question>
+<question>
+<qtext>Let S be a non-empty sequence of integers.</qtext>
+<module>values S = [1,2,3,4,5,11,7,8,9,10,17];</module>
+<preamble>\forall S \inset {[1],[2],[3,7,5,4,3],[1,2,3,4,5,6,7,8,9]} \middledot </preamble>
+<syntax>null</syntax>
+<atext>:i:1:len(S):S(i)::0</atext>
+<atextf>realClose((%1),seqReduce([S(x)|x \inset inds S]))</atextf>
+<part marks="1" kind="sigmaanswer">
+<ptext> Define a sigma expression which gives the total of the values in S.</ptext>
+<preamble>\forall S \inset {[1],[2],[3,7,5,4,3],[1,2,3,4,5,6,7,8,9]} \middledot </preamble>
+<syntaxtext></syntaxtext>
+<atext>:i:1:len(S):S(i)::0</atext>
+<atextf>realClose((%1),seqReduce([S(x)|x \inset inds S]))</atextf>
+</part>
+</question>
+<question>
+<qtext>Give the value defined by the following product expressions, where M is a natural number.</qtext>
+<module>values M=1;</module>
+<preamble>\forall M \inset {1, 5, 10} \middledot</preamble>
+<syntax>null</syntax>
+<atext>6</atext>
+<atext>3**M</atext>
+<atextf>(%1) = (3**M)</atextf>
+<part marks="1" kind="sigma" isproduct="yes">
+<ptext></ptext>
+<preamble></preamble>
+<syntaxtext>Enter a numeric value.</syntaxtext>
+<atext>6</atext>
+<before>i</before>
+<variable>i</variable>
+<lower>1</lower>
+<upper>3</upper>
+<summand>i</summand>
+<after></after>
+</part>
+<part marks="1" kind="sigma" isproduct="yes">
+<ptext></ptext>
+<preamble>\forall M \inset {1, 5, 10} \middledot</preamble>
+<syntaxtext>Enter a numeric value involving M.</syntaxtext>
+<atext>3**M</atext>
+<atextf>(%1) = (3**M)</atextf>
+<before>i</before>
+<variable>i</variable>
+<lower>1</lower>
+<upper>M</upper>
+<summand>3</summand>
+<after></after>
+</part>
+</question>
+<question>
+<qtext>Let S be the sequence S = [2,4,6,1,3,5] and evaluate the following expressions.</qtext>
+<module></module>
+<preamble></preamble>
+<syntax>null</syntax>
+<atext>5</atext>
+<atext>[6,1]</atext>
+<part marks="1" answerkind="">
+<ptext>S(len(S))</ptext>
+<preamble></preamble>
+<syntax>5</syntax>
+<syntaxtext></syntaxtext>
+<atext>5</atext>
+</part>
+<part marks="1" answerkind="">
+<ptext>S(3,...,4)</ptext>
+<preamble></preamble>
+<syntax>[6,1]</syntax>
+<syntaxtext></syntaxtext>
+<atext>[6,1]</atext>
+</part>
+</question>
+</assignment>
