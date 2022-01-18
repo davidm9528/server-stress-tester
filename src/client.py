@@ -6,6 +6,20 @@ import time
 #import pyshark
 #import pings
 
+file0 = open("txt/davidrequest0.txt")
+file1 = open("txt/davidrequest1.txt")
+file2 = open("txt/davidrequest2.txt")
+
+req0 = file0.read().replace("\n"," ")
+req1 = file1.read().replace("\n"," ")
+req2 = file2.read().replace("\n"," ")
+
+file0.close()
+file1.close()
+file2.close()
+
+#print(req0)
+
 ip = "127.0.0.1"
 port = 1010
 
@@ -36,10 +50,10 @@ while checker == 1:
 
     try:
         if args[0] == "reset":
-            data = "X"
+            req0 = "X"
             numtimes = 1
         else:
-            data = "X" * int(args[0])
+            req0 = req0 * int(args[0])
             numtimes = int(args[1])
     except:
         data = None
@@ -50,11 +64,13 @@ while checker == 1:
         pass
     else:
         try:
-            data_bytes = bytes(data, 'ascii')
-            s.send(data.encode())
+        #    data_bytes = bytes(data, 'ascii')
+        #    s.send(data.encode())
+            
+            s.send(req0.encode())
 
             for x in range(numtimes):
-                if s.send(data.encode()):
+                if s.send(req0.encode()):
                     print("*", sep=' ', end=' ', flush=True)
                     time.sleep(0.5)
                       
