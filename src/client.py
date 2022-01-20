@@ -58,7 +58,7 @@ while checker == 1:
     except:
         data = None
         numtimes = None
-        print("Error, you need to specify two numbers.\n- Number of bytes to send\n- Number of times to send them")
+        print("Error, you need to specify two numbers.\n- Which request to send\n- Number of times to send it")
 
     if not data:
         pass
