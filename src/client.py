@@ -20,14 +20,18 @@ file2.close()
 
 #print(req0)
 
-ip = "127.0.0.1"
-port = 1010
+ip = "143.117.100.224"
+port = 6010
 
-#tcp
-s = socket(AF_INET, SOCK_STREAM)
-
-# Connect with above IP and Port
-s.connect((ip, port))
+try:
+    #tcp
+    s = socket(AF_INET, SOCK_STREAM)
+    s.settimeout(10)
+except s.error:
+    print("Nope!!")
+    # Connect with above IP and Port
+    s.connect((ip, port))
+    s.settimeout(None)
 
 # formatting
 print("\n")
@@ -37,7 +41,7 @@ print("-" * 60)
 print("Starting client, press ctrl+c to end.")
 print("\nTarget: ")
 
-print("server.py running on %s port %s" % (ip, port))
+print("Server is running on %s port %s" % (ip, port))
 print("-" * 60)
 
 checker = 1
@@ -66,7 +70,6 @@ while checker == 1:
         try:
         #    data_bytes = bytes(data, 'ascii')
         #    s.send(data.encode())
-            
             s.send(req0.encode())
 
             for x in range(numtimes):
@@ -77,20 +80,11 @@ while checker == 1:
 
                 elif x not in range(numtimes):
                     print(".")
-                    # added slight sleep just so i don't overload the socket (.5)
-                    #time.sleep(0.5)
                     print("Done")
 
         except OSError as err:
             print("**Connection Error**:\n-Please check the below message-\n%s" % err)
             #print("Send failed!")
-
-            """
-                    The maximum payload size of a UDP packet is **65,507** bytes. 
-                    To send more than 65507 bytes, I'll need to split the data up across multiple UDP packets
-                    (or use TCP instead).
-                    
-                """
 
 checker = 2
 s.close()
