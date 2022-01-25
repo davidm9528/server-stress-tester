@@ -21,17 +21,17 @@ file2.close()
 #print(req0)
 
 ip = "143.117.100.224"
-port = 6010
+port = 6011
 
-try:
+#try:
     #tcp
-    s = socket(AF_INET, SOCK_STREAM)
-    s.settimeout(10)
-except s.error:
-    print("Nope!!")
+s = socket(AF_INET, SOCK_STREAM)
+    #s.settimeout(10)
+#except OSError as error1:
+    #print("Nope!!\n5%s" % error1 )
     # Connect with above IP and Port
-    s.connect((ip, port))
-    s.settimeout(None)
+s.connect((ip, port))
+    #s.settimeout(None)
 
 # formatting
 print("\n")
@@ -73,7 +73,7 @@ while checker == 1:
             s.send(req0.encode())
 
             for x in range(numtimes):
-                if s.send(req0.encode()):
+                if s.send(req0.encode("ascii", "ignore")):
                     print("*", sep=' ', end=' ', flush=True)
                     time.sleep(0.5)
                       
