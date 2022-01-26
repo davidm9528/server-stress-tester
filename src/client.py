@@ -76,6 +76,9 @@ while checker == 1:
                 if s.send(req0.encode("ascii", "ignore")):
                     print("*", sep=' ', end=' ', flush=True)
                     time.sleep(0.5)
+                    
+                    #attempt to recieve response from server
+                    response = s.recv(1024)
                       
 
                 elif x not in range(numtimes):
@@ -88,3 +91,4 @@ while checker == 1:
 
 checker = 2
 s.close()
+
