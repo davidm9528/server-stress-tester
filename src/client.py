@@ -54,10 +54,10 @@ while checker == 1:
 
     try:
         if args[0] == "reset":
-            req0 = "X"
+            req2 = "X"
             numtimes = 1
         else:
-            req0 = req0 * int(args[0])
+            req2 = req2 * int(args[0])
             numtimes = int(args[1])
     except:
         data = None
@@ -70,14 +70,16 @@ while checker == 1:
         try:
         #    data_bytes = bytes(data, 'ascii')
         #    s.send(data.encode())
-            s.send(req0.encode())
+            s.send(req2.encode())
 
             for x in range(numtimes):
-                if s.send(req0.encode("ascii", "ignore")):
+                if s.send(req2.encode("ascii", "ignore")):
                     print("*", sep=' ', end=' ', flush=True)
-                    time.sleep(0.5)
-                      
+                   # time.sleep(0.5)
 
+                    #attempt to recieve response from server
+                    response = s.recv(1024)
+                      
                 elif x not in range(numtimes):
                     print(".")
                     print("Done")
@@ -87,4 +89,4 @@ while checker == 1:
             #print("Send failed!")
 
 checker = 2
-s.close()
+#s.close()
