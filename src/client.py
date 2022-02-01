@@ -75,7 +75,15 @@ while checker == 1:
             for x in range(numtimes):
                 if s.send(req2.encode("ascii", "ignore")):
                     print("*", sep=' ', end=' ', flush=True)
+<<<<<<< HEAD
                    # time.sleep(0.5)
+=======
+                    time.sleep(0.5)
+                    
+                    #attempt to recieve response from server
+                    response = s.recv(1024)
+                      
+>>>>>>> c2a65f82954789ff0415e102eb6e8b28806114fb
 
                     #attempt to recieve response from server
                     response = s.recv(1024)
@@ -89,4 +97,9 @@ while checker == 1:
             #print("Send failed!")
 
 checker = 2
+<<<<<<< HEAD
 #s.close()
+=======
+s.close()
+
+>>>>>>> c2a65f82954789ff0415e102eb6e8b28806114fb
