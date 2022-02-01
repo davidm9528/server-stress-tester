@@ -25,12 +25,12 @@ port = 6011
 
 #try:
     #tcp
-s = socket(AF_INET, SOCK_STREAM)
+
     #s.settimeout(10)
 #except OSError as error1:
     #print("Nope!!\n5%s" % error1 )
     # Connect with above IP and Port
-s.connect((ip, port))
+
     #s.settimeout(None)
 
 # formatting
@@ -38,11 +38,11 @@ print("\n")
 print("-" * 60)
 print("client.py")
 print("-" * 60)
-print("Starting client, press ctrl+c to end.")
-print("\nTarget: ")
-
+print("Target: ")
 print("Server is running on %s port %s" % (ip, port))
 print("-" * 60)
+print("Please select which request to send:\n- req0\n- req1\n- req2")
+print("-" * 20)
 
 checker = 1
 
@@ -70,6 +70,8 @@ while checker == 1:
         try:
         #    data_bytes = bytes(data, 'ascii')
         #    s.send(data.encode())
+            s = socket(AF_INET, SOCK_STREAM)
+            s.connect((ip, port))
             s.send(req0.encode())
 
             for x in range(numtimes):
