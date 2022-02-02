@@ -9,19 +9,32 @@ import time
 file0 = open("txt/davidrequest0.txt")
 file1 = open("txt/davidrequest1.txt")
 file2 = open("txt/davidrequest2.txt")
+filemock = open("txt/mocktext.txt")
 
 req0 = file0.read().replace("\n"," ")
 req1 = file1.read().replace("\n"," ")
 req2 = file2.read().replace("\n"," ")
+mock = filemock.read().replace("\n"," ")
 
 file0.close()
 file1.close()
 file2.close()
+filemock.close()
+
+
 
 #print(req0)
 
-ip = "143.117.100.224"
-port = 6011
+#ip = "143.117.100.224"
+#port = 6011
+ip = "127.0.0.1"
+port = 1010
+
+s = socket(AF_INET, SOCK_STREAM)
+s.connect((ip, port))
+
+#duplicates the socket
+s.dup()
 
 #try:
     #tcp
@@ -41,26 +54,24 @@ print("-" * 60)
 print("Target: ")
 print("Server is running on %s port %s" % (ip, port))
 print("-" * 60)
-print("Please select which request to send:\n- req0\n- req1\n- req2")
+print("Please select which request (number) to send:\n1. req0\n2. req1\n3. req2")
 print("-" * 20)
 
-checker = 1
-
 #def socket_error_handler(exception, socket):
-
-while checker == 1:
+while True:
     data = input('\n% ')
     args = data.split()
 
     try:
         if args[0] == "reset":
-            req2 = "X"
+            req0 = "X"
             numtimes = 1
         else:
-            req2 = req2 * int(args[0])
+            #req0 = req0 * int(args[0])
+            req0 = req0 * int(args[0])
             numtimes = int(args[1])
     except:
-        data = None
+        mock = None
         numtimes = None
         print("Error, you need to specify two numbers.\n- Which request to send\n- Number of times to send it")
 
@@ -68,44 +79,26 @@ while checker == 1:
         pass
     else:
         try:
-        #    data_bytes = bytes(data, 'ascii')
-        #    s.send(data.encode())
-<<<<<<< HEAD
-            s = socket(AF_INET, SOCK_STREAM)
-            s.connect((ip, port))
-            s.send(req0.encode())
-=======
-            s.send(req2.encode())
->>>>>>> a12a853d13c80cadeecf51ddc46e854886b45bc6
+            #data_bytes = bytes(data, 'ascii')
+            #s.send(data.encode())
+            #s.send(mock.encode())
 
-            for x in range(numtimes):
-                if s.send(req2.encode("ascii", "ignore")):
+            for X in range(numtimes):
+                if s.send(req0.encode()):
                     print("*", sep=' ', end=' ', flush=True)
-<<<<<<< HEAD
-                   # time.sleep(0.5)
-=======
-                    time.sleep(0.5)
+                    #time.sleep(0.5)
                     
                     #attempt to recieve response from server
-                    response = s.recv(1024)
-                      
->>>>>>> c2a65f82954789ff0415e102eb6e8b28806114fb
-
-                    #attempt to recieve response from server
-                    response = s.recv(1024)
-                      
-                elif x not in range(numtimes):
+                    #print(reply)
+                    #reply = s.recv(1024)
+                    print("test")
+                    
+                elif X not in range(numtimes):
                     print(".")
                     print("Done")
 
         except OSError as err:
-            print("**Connection Error**:\n-Please check the below message-\n%s" % err)
+            print("-Connection Error-:\n-Please check the below message-\n%s" % err)
             #print("Send failed!")
 
-checker = 2
-<<<<<<< HEAD
-#s.close()
-=======
 s.close()
-
->>>>>>> c2a65f82954789ff0415e102eb6e8b28806114fb
