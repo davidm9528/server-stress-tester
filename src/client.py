@@ -27,14 +27,13 @@ filemock.close()
 
 #ip = "143.117.100.224"
 #port = 6011
-ip = "127.0.0.1"
-port = 1010
+ip = "143.117.100.224"
+port = 6011
 
 s = socket(AF_INET, SOCK_STREAM)
-s.connect((ip, port))
 
 #duplicates the socket
-s.dup()
+#s.dup()
 
 #try:
     #tcp
@@ -47,14 +46,18 @@ s.dup()
     #s.settimeout(None)
 
 # formatting
+startOfCon = time.perf_counter()
+s.connect((ip,port))
+
 print("\n")
 print("-" * 60)
+print("Connection time (seconds): %s" % (time.perf_counter() - startOfCon))
 print("client.py")
 print("-" * 60)
 print("Target: ")
 print("Server is running on %s port %s" % (ip, port))
 print("-" * 60)
-print("Please select which request (number) to send:\n1. req0\n2. req1\n3. req2")
+print("Please select which request (letter) to send:\na. req0\nb. req1\nc. req2")
 print("-" * 20)
 
 #def socket_error_handler(exception, socket):
@@ -64,11 +67,11 @@ while True:
 
     try:
         if args[0] == "reset":
-            req0 = "X"
+            req1 = "X"
             numtimes = 1
         else:
             #req0 = req0 * int(args[0])
-            req0 = req0 * int(args[0])
+            req1 = req1 * int(args[0])
             numtimes = int(args[1])
     except:
         mock = None
@@ -84,14 +87,19 @@ while True:
             #s.send(mock.encode())
 
             for X in range(numtimes):
-                if s.send(req0.encode()):
+                if s.send(req1.encode()):
                     print("*", sep=' ', end=' ', flush=True)
                     #time.sleep(0.5)
                     
+                    
                     #attempt to recieve response from server
                     #print(reply)
-                    #reply = s.recv(1024)
-                    print("test")
+                    response = s.recv(1024)
+                    print(response)
+
+
+
+                    s.close()
                     
                 elif X not in range(numtimes):
                     print(".")
@@ -101,4 +109,3 @@ while True:
             print("-Connection Error-:\n-Please check the below message-\n%s" % err)
             #print("Send failed!")
 
-s.close()
