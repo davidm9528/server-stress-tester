@@ -21,12 +21,11 @@ file1.close()
 file2.close()
 filemock.close()
 
-#print(req0)
+ip = "127.0.0.1"
+port = 1010
 
-#ip = "143.117.100.224"
-#port = 6011
-ip = "143.117.100.224"
-port = 6011
+#ip.addr ==  127.0.0.1 and tcp.port == 1010
+#ip.addr ==  143.117.100.224 and tcp.port == 6011
 
 s = socket(AF_INET, SOCK_STREAM)
 
@@ -55,7 +54,7 @@ print("-" * 60)
 print("Target: ")
 print("Server is running on %s port %s" % (ip, port))
 print("-" * 60)
-print("Please select which request (number) to send:\n0. req0\n1. req1\n2. req2")
+print("Please type which request to send:\nI.e. two 5\nwill send the 2nd request 5 times:\n\n0. req0\n1. req1\n2. req2")
 print("-" * 20)
 
 #def socket_error_handler(exception, socket):
@@ -71,11 +70,21 @@ while True:
         elif args[0] == "zero":
             choice = req0
             numtimes = int(args[1])
-        else: #valid option, but not any of the requests selected
+            
+        elif args[0] == "one":
+            choice = req1
+            numtimes = int(args[1])
+        
+        elif args[0] == "two":
+            choice = req2
+            numtimes = int(args[1])
+            
+        else: #valid option, but not any of the requests selected  (improved error handling, rather than crashing the system)
+            print("You have just sent mock text, this is not a valid request.")
             choice = mock 
             numtimes = 1
     except:
-        mock = None
+        data = None
         numtimes = None
         print("Error, you need to specify two numbers.\n- Which request to send\n- Number of times to send it")
 
@@ -85,7 +94,7 @@ while True:
         try:
 
             for X in range(numtimes):
-                if s.sendall(req0.encode()):
+                if s.sendall(choice.encode()):
                     print("test")
                     print("*", sep=' ', end=' ', flush=True)
 
