@@ -1,10 +1,9 @@
 from csv import Sniffer
 import socket
 from socket import *
-import string
 import time
-#import pyshark
-#import pings
+import threading
+
 
 file0 = open("txt/davidrequest0.txt")
 file1 = open("txt/davidrequest1.txt")
@@ -82,7 +81,7 @@ while True:
         else: #valid option, but not any of the requests selected  (improved error handling, rather than crashing the system)
             print("You have just sent mock text, this is not a valid request.")
             choice = mock 
-            numtimes = 1
+            numtimes = 1 #Just sends mock once, enter more user validation
     except:
         data = None
         numtimes = None
@@ -94,11 +93,13 @@ while True:
         try:
 
             for X in range(numtimes):
-                if s.sendall(choice.encode()):
-                    print("test")
+                   # s.dup()
                     print("*", sep=' ', end=' ', flush=True)
-
-                elif X not in range(numtimes):
+                    
+            if s.sendall(choice.encode()):
+                    print("test")
+                    
+            elif X not in range(numtimes):
                     print(".")
                     print("Done")
 
