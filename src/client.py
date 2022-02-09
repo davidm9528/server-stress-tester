@@ -21,8 +21,6 @@ file1.close()
 file2.close()
 filemock.close()
 
-
-
 #print(req0)
 
 #ip = "143.117.100.224"
@@ -54,7 +52,7 @@ print("-" * 60)
 print("Target: ")
 print("Server is running on %s port %s" % (ip, port))
 print("-" * 60)
-print("Please select which request (number) to send:\n1. req0\n2. req1\n3. req2")
+print("Please select which request (number) to send:\n0. req0\n1. req1\n2. req2")
 print("-" * 20)
 
 #def socket_error_handler(exception, socket):
@@ -66,10 +64,13 @@ while True:
         if args[0] == "reset":
             req0 = "X"
             numtimes = 1
-        else:
-            #req0 = req0 * int(args[0])
-            req0 = req0 * int(args[0])
+        
+        elif args[0] == "zero":
+            choice = req0
             numtimes = int(args[1])
+        else: #valid option, but not any of the requests selected
+            choice = mock 
+            numtimes = 1
     except:
         mock = None
         numtimes = None
@@ -79,20 +80,12 @@ while True:
         pass
     else:
         try:
-            #data_bytes = bytes(data, 'ascii')
-            #s.send(data.encode())
-            #s.send(mock.encode())
 
             for X in range(numtimes):
-                if s.send(req0.encode()):
-                    print("*", sep=' ', end=' ', flush=True)
-                    #time.sleep(0.5)
-                    
-                    #attempt to recieve response from server
-                    #print(reply)
-                    #reply = s.recv(1024)
+                if s.sendall(req0.encode()):
                     print("test")
-                    
+                    print("*", sep=' ', end=' ', flush=True)
+
                 elif X not in range(numtimes):
                     print(".")
                     print("Done")
