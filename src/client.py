@@ -25,14 +25,13 @@ filemock.close()
 
 #ip = "143.117.100.224"
 #port = 6011
-ip = "127.0.0.1"
-port = 1010
+ip = "143.117.100.224"
+port = 6011
 
 s = socket(AF_INET, SOCK_STREAM)
-s.connect((ip, port))
 
 #duplicates the socket
-s.dup()
+#s.dup()
 
 #try:
     #tcp
@@ -45,8 +44,12 @@ s.dup()
     #s.settimeout(None)
 
 # formatting
+startOfCon = time.perf_counter()
+s.connect((ip,port))
+
 print("\n")
 print("-" * 60)
+print("Connection time (seconds): %s" % (time.perf_counter() - startOfCon))
 print("client.py")
 print("-" * 60)
 print("Target: ")
@@ -62,7 +65,7 @@ while True:
 
     try:
         if args[0] == "reset":
-            req0 = "X"
+            req1 = "X"
             numtimes = 1
         
         elif args[0] == "zero":
@@ -94,4 +97,3 @@ while True:
             print("-Connection Error-:\n-Please check the below message-\n%s" % err)
             #print("Send failed!")
 
-s.close()
