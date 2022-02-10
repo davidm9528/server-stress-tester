@@ -18,7 +18,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((ip,port))
 
 #listen for 1 Clients (will refuse if 1+ clients try to connect)
-s.listen(1)
+s.listen(5)
 
 conn, address = s.accept()
 
@@ -68,6 +68,7 @@ while (1):
         rate = totalbytes/(finishedstamp - timestamp) * 8 / 1000
 
         print("Rcvd: %s bytes, %s total in %ss at %skbps" % (data, totalbytes, finishedstamp - timestamp, rate))
+        #conn.send(bytes("THIS IS FROM THE SERVER"))
         
         #Send 1 single byte to clear stats
         #reset
@@ -76,4 +77,4 @@ while (1):
             timestamp = time.time()
             totalrcvs = 0
             print("*Reset* - clearing stats.")
-s.close()
+#s.close()

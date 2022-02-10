@@ -1,19 +1,22 @@
-from csv import Sniffer
+
 import socket
 from socket import *
 import time
 import threading
 
+#REQUESTS
 file0 = open("txt/davidrequest0.txt")
 file1 = open("txt/davidrequest1.txt")
 file2 = open("txt/davidrequest2.txt")
 filemock = open("txt/mock.txt")
 
+#OPEN REQUESTS
 req0 = file0.read().replace("\n"," ")
 req1 = file1.read().replace("\n"," ")
 req2 = file2.read().replace("\n"," ")
 mock = filemock.read().replace("\n"," ")
 
+#CLOSE REQUESTS
 file0.close()
 file1.close()
 file2.close()
@@ -32,9 +35,12 @@ port = 1010
 #Create the socket
 s = socket(AF_INET, SOCK_STREAM)
 
-# formatting
+#Formatting
 startOfCon = time.perf_counter()
 s.connect((ip,port))
+
+
+ #change buffer size eventually (make it dynamic)
 
 print("\n")
 print("-" * 60)
@@ -52,7 +58,7 @@ print("-" * 20)
 while True:
     choice = input('\n% ')
     args = choice.split()
-
+    #msg = s.recv(1024)
     try:
         if args[0] == "reset":
             choice = "X"
@@ -61,6 +67,7 @@ while True:
         elif args[0] == "req0":
             choice = req0
             numtimes = int(args[1])
+            
             
         elif args[0] == "req1":
             choice = req1
@@ -77,7 +84,7 @@ while True:
     except:
         choice = None
         numtimes = None
-        print("Error, you need to specify two numbers.\n- Which request to send\n- Number of times to send it")
+        print("Error, you need to specify two inputs.\n- Which request to send\n- Number of times to send it")
 
     if not choice:
         pass
