@@ -78,7 +78,7 @@ while True:
             numtimes = int(args[1])
             
         else: #valid option, but not any of the requests selected  (improved error handling, rather than crashing the system)
-            print("You have just sent mock text once, this is not a valid request.")
+            print("You have just sent one byte, this is not a valid request.")
             choice = mock 
             numtimes = 1 #Just sends mock once, enter more user validation
     except:
