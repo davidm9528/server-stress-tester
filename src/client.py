@@ -1,7 +1,6 @@
 
-import socket
+import socket, time, sys
 from socket import *
-import time
 import threading
 
 #REQUESTS
@@ -35,10 +34,22 @@ port = 1010
 #Create the socket
 s = socket(AF_INET, SOCK_STREAM)
 
+sys.setrecursionlimit(2000)
+
+def open_socket(counter):
+    sockets = []
+    for i in range(counter):
+        se = socket(AF_INET, SOCK_STREAM)
+        se.bind((ip, port))
+        se.listen(1)
+        sockets.append(se)
+ 
+    time.sleep(1)
+
 #Formatting
 startOfCon = time.perf_counter()
-s.connect((ip,port))
 
+s.connect((ip, port))
 
  #change buffer size eventually (make it dynamic)
 
@@ -84,11 +95,14 @@ while True:
     except:
         choice = None
         numtimes = None
-        print("Error, you need to specify two inputs.\n- Which request to send\n- Number of times to send it")
+        print("Error, you need to specify two correct inputs.\n- Which request to send\n- Number of times to send it")
 
     if not choice:
         pass
     else:
+        
+       # socks = open_socket(1)
+        
         try:
 
             for X in range(numtimes):
