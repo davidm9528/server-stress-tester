@@ -1,5 +1,7 @@
+from random import choice
 from socket import *
 import socket
+import threading
 import time
 from datetime import datetime
 
@@ -21,7 +23,6 @@ s.bind((ip,port))
 s.listen(5)
 
 conn, address = s.accept()
-
 
 #formatting
 time.time()
@@ -68,7 +69,8 @@ while (1):
         rate = totalbytes/(finishedstamp - timestamp) * 8 / 1000
 
         print("Rcvd: %s bytes, %s total in %ss at %skbps" % (data, totalbytes, finishedstamp - timestamp, rate))
-        #conn.send(bytes("THIS IS FROM THE SERVER"))
+        conn.send(bytes(str(choice), encoding="utf8"))
+        #works ^
         
         #Send 1 single byte to clear stats
         #reset
