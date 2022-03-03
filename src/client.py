@@ -10,10 +10,10 @@ file2 = open("txt/davidrequest2.txt")
 filemock = open("txt/mock.txt")
 
 #OPEN REQUESTS
-req0 = file0.read().replace("\n"," ")
-req1 = file1.read().replace("\n"," ")
-req2 = file2.read().replace("\n"," ")
-mock = filemock.read().replace("\n"," ")
+req0 = file0.read().replace("","")
+req1 = file1.read().replace("","")
+req2 = file2.read().replace("","")
+mock = filemock.read().replace("","")
 
 #CLOSE REQUESTS
 file0.close()
@@ -32,7 +32,7 @@ port = 1010
 #ip.addr ==  143.117.100.224 and tcp.port == 6011
 
 #Create the socket
-s = socket(AF_INET, SOCK_STREAM)
+client = socket(AF_INET, SOCK_STREAM)
 
 sys.setrecursionlimit(2000)
 
@@ -49,7 +49,11 @@ def open_socket(counter):
 #Formatting
 startOfCon = time.perf_counter()
 
-s.connect((ip, port))
+
+client.connect((ip, port))
+#data = s.recv(10240)
+#stringdata = data.decode('utf-8')
+print("From server: ", ip)
 
  #change buffer size eventually (make it dynamic)
 
@@ -100,20 +104,24 @@ while True:
     if not choice:
         pass
     else:
-        
-       # socks = open_socket(1)
-        
         try:
-
+            counter = 0
             for X in range(numtimes):
-                    s.dup()
-                    print("*", sep=' ', end=' ', flush=True)
-                    if s.sendall(choice.encode()):
+                    counter+=1
+                    #client.dup()
+                    print("*", sep='', end='', flush=True)
+                    #print("*")
+                    #print(counter)
+                    if client.sendall(choice.encode()):
                             print("test")
 
                     elif X not in range(numtimes):
                             print(".")
                             print("Done")
+            if choice != mock:
+                print("\n#"+ str(counter) + " " + str(args[0]) + " occurances were sent")
+                
+            
 
         except OSError as err:
             print("-Connection Error-:\n-Please check the below message-\n%s" % err)
