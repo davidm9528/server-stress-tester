@@ -49,6 +49,8 @@ timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
 print("Current Timestamp : ", timestampStr)
 print("Server Info: ", information)
 print("-" * 60)
+
+
 while (1):
 
     data, address = conn.recvfrom(buffer)
@@ -69,9 +71,10 @@ while (1):
         rate = totalbytes/(finishedstamp - timestamp) * 8 / 1000
 
         print("Rcvd: %s bytes, %s total in %ss at %skbps" % (data, totalbytes, finishedstamp - timestamp, rate))
-        conn.send(bytes(str(choice), encoding="utf8"))
+
+        conn.send(bytes(str(totalbytes), encoding="utf8"))
         #works ^
-        
+
         #Send 1 single byte to clear stats
         #reset
         if data == True:

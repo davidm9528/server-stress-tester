@@ -2,6 +2,10 @@
 import socket, time, sys
 from socket import *
 import threading
+import select
+import pyshark
+import os
+import sys
 
 #REQUESTS
 file0 = open("txt/davidrequest0.txt")
@@ -51,9 +55,6 @@ startOfCon = time.perf_counter()
 
 
 client.connect((ip, port))
-#data = s.recv(10240)
-#stringdata = data.decode('utf-8')
-print("From server: ", ip)
 
  #change buffer size eventually (make it dynamic)
 
@@ -92,6 +93,9 @@ while True:
             choice = req2
             numtimes = int(args[1])
             
+        elif args[0] == "exit":
+            os.system('cls' if os.name == 'nt' else 'clear')
+            
         else: #valid option, but not any of the requests selected  (improved error handling, rather than crashing the system)
             print("You have just sent one byte, this is not a valid request.")
             choice = mock 
@@ -110,8 +114,7 @@ while True:
                     counter+=1
                     #client.dup()
                     print("*", sep='', end='', flush=True)
-                    #print("*")
-                    #print(counter)
+                    
                     if client.sendall(choice.encode()):
                             print("test")
 
@@ -119,10 +122,8 @@ while True:
                             print(".")
                             print("Done")
             if choice != mock:
-                print("\n#"+ str(counter) + " " + str(args[0]) + " occurances were sent")
-                
+                print("\n#"+ str(counter) + " " + str(args[0]) + " occurance(s) were sent")
             
-
         except OSError as err:
             print("-Connection Error-:\n-Please check the below message-\n%s" % err)
             #print("Send failed!")
