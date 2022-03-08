@@ -11,12 +11,14 @@ import sys
 file0 = open("txt/davidrequest0.txt")
 file1 = open("txt/davidrequest1.txt")
 file2 = open("txt/davidrequest2.txt")
+
 filemock = open("txt/mock.txt")
 
 #OPEN REQUESTS
 req0 = file0.read().replace("","")
 req1 = file1.read().replace("","")
 req2 = file2.read().replace("","")
+
 mock = filemock.read().replace("","")
 
 #CLOSE REQUESTS
@@ -122,7 +124,7 @@ while True:
                             print(".")
                             print("Done")
             if choice != mock:
-                print("\n#"+ str(counter) + " " + str(args[0]) + " occurance(s) were sent")
+                print("\n#"+ str(counter) + " " + str(args[0]) + " occurance(s) were sent to " + str(ip))
             
         except OSError as err:
             print("-Connection Error-:\n-Please check the below message-\n%s" % err)

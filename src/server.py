@@ -9,6 +9,10 @@ from datetime import datetime
 #CHANGE PORT ON RUNS ON BOTH FILES (CLIENT)
 #
 
+filereply = open("txt/reply.txt")
+reply = filereply.read().replace("","")
+filereply.close()
+
 ip = "127.0.0.1"
 port = 1010
 buffer = 102400
@@ -72,7 +76,7 @@ while (1):
 
         print("Rcvd: %s bytes, %s total in %ss at %skbps" % (data, totalbytes, finishedstamp - timestamp, rate))
 
-        conn.send(bytes(str(totalbytes), encoding="utf8"))
+        conn.send(bytes(reply, encoding="utf8"))
         #works ^
 
         #Send 1 single byte to clear stats
