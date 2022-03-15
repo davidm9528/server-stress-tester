@@ -1,11 +1,12 @@
 
-import socket, time, sys
+import socket, time, sys, datetime
 from socket import *
 import threading
 import select
+from tracemalloc import start
 import pyshark
 import os
-import sys
+#import pycurl
 
 #REQUESTS
 file0 = open("txt/davidrequest0.txt")
@@ -116,17 +117,33 @@ while True:
                     counter+=1
                     #client.dup()
                     print("*", sep='', end='', flush=True)
-                    
+                    sendt = datetime.datetime.now()
                     if client.sendall(choice.encode()):
                             print("test")
 
                     elif X not in range(numtimes):
                             print(".")
                             print("Done")
+                            
+            print("\n")
+            databytes = client.recv(10000)
+            #buffer needs looked at
+            recvt = datetime.datetime.now()
+            if not databytes: break
+            data = databytes.decode("utf-8")
+            print(data)
+            
             if choice != mock:
                 print("\n#"+ str(counter) + " " + str(args[0]) + " occurance(s) were sent to " + str(ip))
-            
+                #send_recv = sendtime - recvtime
+                print("\n")
+                #c = datetime.timedelta(0, a, b)
+                
+                #print(c.microseconds)
+                
         except OSError as err:
             print("-Connection Error-:\n-Please check the below message-\n%s" % err)
             #print("Send failed!")
+            
+          
 
