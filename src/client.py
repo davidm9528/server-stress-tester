@@ -126,12 +126,12 @@ while True:
                             print("Done")
                             
             print("\n")
-            databytes = client.recv(10000)
+            databytes = client.recv(1024)
             #buffer needs looked at
             recvt = datetime.datetime.now()
             if not databytes: break
             data = databytes.decode("utf-8")
-            print(data)
+            print(len(data))
             
             if choice != mock:
                 print("\n#"+ str(counter) + " " + str(args[0]) + " occurance(s) were sent to " + str(ip))
