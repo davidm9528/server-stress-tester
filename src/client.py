@@ -41,8 +41,6 @@ port = 1010
 #Create the socket
 client = socket(AF_INET, SOCK_STREAM)
 
-sys.setrecursionlimit(2000)
-
 def open_socket(counter):
     sockets = []
     for i in range(counter):
@@ -50,12 +48,11 @@ def open_socket(counter):
         se.bind((ip, port))
         se.listen(1)
         sockets.append(se)
- 
     time.sleep(1)
+    
 
 #Formatting
 startOfCon = time.perf_counter()
-
 
 client.connect((ip, port))
 
@@ -113,37 +110,55 @@ while True:
     else:
         try:
             counter = 0
+            s_start = time.perf_counter()
             for X in range(numtimes):
                     counter+=1
                     #client.dup()
                     print("*", sep='', end='', flush=True)
-                    sendt = datetime.datetime.now()
+                   
                     if client.sendall(choice.encode()):
-                            print("test")
+                        print("test")
 
                     elif X not in range(numtimes):
                             print(".")
                             print("Done")
                             
             print("\n")
-            databytes = client.recv(1024)
+            s_end = time.perf_counter()
+            
+            r_start = time.perf_counter()
+            databytes = client.recv(8192)
+            r_end = time.perf_counter()
+            
             #buffer needs looked at
-            recvt = datetime.datetime.now()
+            
             if not databytes: break
             data = databytes.decode("utf-8")
-            print(len(data))
+            print(data)
             
             if choice != mock:
-                print("\n#"+ str(counter) + " " + str(args[0]) + " occurance(s) were sent to " + str(ip))
-                #send_recv = sendtime - recvtime
                 print("\n")
-                #c = datetime.timedelta(0, a, b)
+                print(str(counter) + " " + str(args[0]) + " occurance(s) were sent to " + str(ip))         
+                print("Number of bytes recieved from server: "+ str(len(data))) 
                 
-                #print(c.microseconds)
+                send_time = s_end - s_start
+                recv_time = r_end - r_start
+                avg_time = (send_time + recv_time) / 2
+                
+                format_send_time = "{:.7f}".format(send_time)
+                format_recv_time = "{:.7f}".format(recv_time)
+                format_avg_time = "{:.7f}".format(avg_time)
+                
+                print("Time to send %s request(s): %s" % (numtimes, format_send_time) + " seconds")
+                print("Time to receive reply: %s" % (format_recv_time) + " seconds")
+                
+                
+                print("Average time to send and receive: %s" % (float(format_avg_time)) + " seconds")
+                
+                
                 
         except OSError as err:
             print("-Connection Error-:\n-Please check the below message-\n%s" % err)
             #print("Send failed!")
             
-          
-
+#average of send and recieve time
