@@ -1,10 +1,7 @@
 
 import socket, time, sys, datetime
 from socket import *
-import threading
-import select
-from tracemalloc import start
-import pyshark
+#import pyshark
 import os
 #import pycurl
 
@@ -41,22 +38,10 @@ port = 1010
 #Create the socket
 client = socket(AF_INET, SOCK_STREAM)
 
-def open_socket(counter):
-    sockets = []
-    for i in range(counter):
-        se = socket(AF_INET, SOCK_STREAM)
-        se.bind((ip, port))
-        se.listen(1)
-        sockets.append(se)
-    time.sleep(1)
-    
-
 #Formatting
 startOfCon = time.perf_counter()
 
 client.connect((ip, port))
-
- #change buffer size eventually (make it dynamic)
 
 print("\n")
 print("-" * 60)
@@ -94,7 +79,7 @@ while True:
             numtimes = int(args[1])
             
         elif args[0] == "exit":
-            os.system('cls' if os.name == 'nt' else 'clear')
+            client.close()
             
         else: #valid option, but not any of the requests selected  (improved error handling, rather than crashing the system)
             print("You have just sent one byte, this is not a valid request.")
@@ -115,7 +100,7 @@ while True:
                     counter+=1
                     #client.dup()
                     print("*", sep='', end='', flush=True)
-                   
+                    
                     if client.sendall(choice.encode()):
                         print("test")
 
@@ -126,20 +111,34 @@ while True:
             print("\n")
             s_end = time.perf_counter()
             
-            r_start = time.perf_counter()
+            r_start = time.perf_counter()         
             databytes = client.recv(8192)
             r_end = time.perf_counter()
-            
+
             #buffer needs looked at
             
             if not databytes: break
             data = databytes.decode("utf-8")
+            print("-" * 60)
             print(data)
             
             if choice != mock:
-                print("\n")
-                print(str(counter) + " " + str(args[0]) + " occurance(s) were sent to " + str(ip))         
-                print("Number of bytes recieved from server: "+ str(len(data))) 
+                print("-" * 60)
+                print(".")
+                time.sleep(0.5)
+                print("..")
+                time.sleep(0.5)
+                print("...")
+                time.sleep(0.5)
+                print("-" * 60)
+                
+                reqsize = len(choice)
+                
+                print("-" * 10 + "Stats" + "-" * 10)
+                print(str(counter) + " " + str(args[0]) + " occurance(s) were sent to " + str(ip) + ":" + str(port))    
+                #message showing size of request sent
+                print("Size of rquest sent to server: " + str(reqsize) + " bytes")  
+                print("Size of response from server: "+ str(len(data)), "bytes")
                 
                 send_time = s_end - s_start
                 recv_time = r_end - r_start
@@ -148,17 +147,16 @@ while True:
                 format_send_time = "{:.7f}".format(send_time)
                 format_recv_time = "{:.7f}".format(recv_time)
                 format_avg_time = "{:.7f}".format(avg_time)
+                roundtime = "{:.7f}".format(send_time + recv_time)
                 
                 print("Time to send %s request(s): %s" % (numtimes, format_send_time) + " seconds")
                 print("Time to receive reply: %s" % (format_recv_time) + " seconds")
-                
-                
-                print("Average time to send and receive: %s" % (float(format_avg_time)) + " seconds")
-                
-                
-                
+                print("Roundtime: " + roundtime + " seconds")
+                print("Avg: %s" % (float(format_avg_time)) + " seconds")
+                print("-" * 60)
+
         except OSError as err:
             print("-Connection Error-:\n-Please check the below message-\n%s" % err)
             #print("Send failed!")
             
-#average of send and recieve time
+client.close()
