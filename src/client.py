@@ -112,18 +112,27 @@ while True:
             s_end = time.perf_counter()
             
             r_start = time.perf_counter()         
-            databytes = client.recv(8192)
+            databytes = client.recv(17185)
             r_end = time.perf_counter()
 
             #buffer needs looked at
             
-            if not databytes: break
-            data = databytes.decode("utf-8")
-            print("-" * 60)
-            print(data)
+            '''
+            define a function that checks if all the databytes have been received, if not, it will keep trying to receive
+            Once it has received all the databytes, it will print the databytes and the time it took to receive them
+            '''
+            def datarecv(databytes):
+                if not databytes:
+                    print("No data received")
+                else:
+                    print("Data received:\n %s" % databytes.decode('utf-8'))
+                    
+            datarecv(databytes)
             
             if choice != mock:
+                
                 print("-" * 60)
+                '''
                 print(".")
                 time.sleep(0.5)
                 print("..")
@@ -131,14 +140,14 @@ while True:
                 print("...")
                 time.sleep(0.5)
                 print("-" * 60)
-                
+                '''
                 reqsize = len(choice)
                 
                 print("-" * 10 + "Stats" + "-" * 10)
                 print(str(counter) + " " + str(args[0]) + " occurance(s) were sent to " + str(ip) + ":" + str(port))    
                 #message showing size of request sent
-                print("Size of rquest sent to server: " + str(reqsize) + " bytes")  
-                print("Size of response from server: "+ str(len(data)), "bytes")
+                print("Size of rquest sent to server: " + str((reqsize*numtimes)) + " bytes")  
+                print("Size of response from server: "+ str(len(databytes)), "bytes")
                 
                 send_time = s_end - s_start
                 recv_time = r_end - r_start
@@ -157,6 +166,6 @@ while True:
 
         except OSError as err:
             print("-Connection Error-:\n-Please check the below message-\n%s" % err)
-            #print("Send failed!")
-            
-client.close()
+            #print("Send failed!")  
+                    
+    #client.close()
