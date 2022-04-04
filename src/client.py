@@ -28,8 +28,8 @@ filemock.close()
 #Localhost server for testing (server.py)
 #Wireshark filter
 #ip.addr ==  127.0.0.1 and tcp.port == 1010
-ip = "127.0.0.1"
-port = 1010
+ip = "143.117.100.224"
+port = 6011
 
 #Queens server
 #Wireshark filter
@@ -128,7 +128,7 @@ def main():
                         '''create for loop iterating through all the sockets'''
                         for i in range(num_sockets):
                             socks[i].send(choice.encode())
-                        socks[i].close()
+                        #socks[i].close()
                         #socks = create_sockets(ip, port, num_sockets)
                         
                         '''
@@ -142,53 +142,55 @@ def main():
                 print("\n")
                 s_end = time.perf_counter()
                 
-                r_start = time.perf_counter()         
+                
+                if choice != mock:
+
+                    r_start = time.perf_counter()         
                 #databytes = client.recv(8820) 
                 
                 '''have each client recv the data from the server'''
                 for i in range(num_sockets+1):
-                    databytes = socks[i].recv(8820)
-                    print("test")
+                    databytes = socks[i-1].recv(8820)
+                    databytes2 = socks[i-1].recv(8820)
+                    
                     #print(databytes.decode())
-                #uncomment for qub server vvvv
-                #databytes2 = client.recv(8820)      
-                r_end = time.perf_counter()
+                    #uncomment for qub server vvvv
+                    #databytes2 = client.recv(8820)      
+                    r_end = time.perf_counter()
                 
-                if choice != mock:
-                    print("-" * 60)
-                    print(databytes.decode('utf-8'))
-                    #print(databytes.decode('utf-8') + datebytes2.decode('utf-8'))
+                    #print(databytes2.decode('utf-8'))
+                    print(databytes.decode('utf-8') + databytes2.decode('utf-8'))
                     
-                    print("-" * 60)
-                    print(".")
-                    time.sleep(0.5)
-                    print("..")
-                    time.sleep(0.5)
-                    print("...")
-                    time.sleep(0.5)
+                print("-" * 60)
+                print(".")
+                time.sleep(0.5)
+                print("..")
+                time.sleep(0.5)
+                print("...")
+                time.sleep(0.5)
                     
-                    reqsize = len(choice)
-                    
-                    print("-" * 15 + "Stats" + "-" * 15)
-                    print(str(counter) + " " + str(args[0]) + " occurance(s) were sent to " + str(ip) + ":" + str(port))    
-                    print("Size of rquest sent to server: " + str((reqsize*numtimes)) + " bytes")  
-                    print("Size of response from server: "+ str(len(databytes)), "bytes")
-                    
-                    send_time = s_end - s_start
-                    recv_time = r_end - r_start
-                    avg_time = (send_time + recv_time) / 2
-                    
-                    format_send_time = "{:.7f}".format(send_time)
-                    format_recv_time = "{:.7f}".format(recv_time)
-                    format_avg_time = "{:.7f}".format(avg_time)
-                    roundtime = "{:.7f}".format(send_time + recv_time)
-                    
-                    print("Time to send %s request(s): %s" % (numtimes, format_send_time) + " seconds")
-                    print("Time to receive reply: %s" % (format_recv_time) + " seconds")
-                    print("Roundtime: " + roundtime + " seconds")
-                    print("Avg: %s" % (float(format_avg_time)) + " seconds")
-                    #graphsock()
-                    print("-" * 60)
+                reqsize = len(choice)
+                
+                print("-" * 15 + "Stats" + "-" * 15)
+                print(str(counter) + " " + str(args[0]) + " occurance(s) were sent to " + str(ip) + ":" + str(port))    
+                print("Size of rquest sent to server: " + str((reqsize*numtimes)) + " bytes")  
+                print("Size of response from server: "+ str(len(databytes2)), "bytes")
+                
+                send_time = s_end - s_start
+                recv_time = r_end - r_start
+                avg_time = (send_time + recv_time) / 2
+                
+                format_send_time = "{:.7f}".format(send_time)
+                format_recv_time = "{:.7f}".format(recv_time)
+                format_avg_time = "{:.7f}".format(avg_time)
+                roundtime = "{:.7f}".format(send_time + recv_time)
+                
+                print("Time to send %s request(s): %s" % (numtimes, format_send_time) + " seconds")
+                print("Time to receive reply: %s" % (format_recv_time) + " seconds")
+                print("Roundtime: " + roundtime + " seconds")
+                print("Avg: %s" % (float(format_avg_time)) + " seconds")
+                #graphsock()
+                print("-" * 60)
             
             except OSError as err:
                 print("-Connection Error-:\n-Please check the below message-\n%s" % err)  
