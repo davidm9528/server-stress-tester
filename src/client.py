@@ -3,6 +3,7 @@ from socket import *
 import os
 #import networkx as nx
 #import matplotlib.pyplot as plt
+from socket import AF_INET, SOCK_STREAM
 
 #REQUESTS
 file0 = open("txt/davidrequest0.txt")
@@ -34,12 +35,23 @@ port = 1010
 #Wireshark filter
 #ip.addr ==  143.117.100.224 and tcp.port == 6011
 
+
 #Create the client socket
-client = socket(AF_INET, SOCK_STREAM)
+#client = socket(AF_INET, SOCK_STREAM)
 
 startOfCon = time.perf_counter()
+#client.connect((ip, port))
+endOfCon = time.perf_counter()
 
-client.connect((ip, port))
+def create_sockets(ip,port,num_sockets):
+    '''create multiple client sockets'''
+    import socket
+    sockets = []
+    for i in range(int(num_sockets)):
+        client = socket.socket(AF_INET, SOCK_STREAM)
+        client.connect((ip, port))
+        sockets.append(client)
+    return sockets
 
 '''
 Using NetworkX library, show a graph of the network traffic on the sockets being used
@@ -86,7 +98,7 @@ def main():
                 numtimes = int(args[1])
                 
             elif args[0] == "exit":
-                client.close()
+                close()
                 
             else: #valid option, but not any of the requests selected  (improved error handling, rather than crashing the system)
                 print("You have just sent one byte, this is not a valid request.")
@@ -108,18 +120,36 @@ def main():
                         #client.dup()
                         print("*", sep='', end='', flush=True)
                         
-                        if client.sendall(choice.encode()):
+                        print("How many clients would you like to create? ")
+                        num_sockets = input("% ")
+                        socks = create_sockets(ip, port, num_sockets)
+                        num_sockets = int(num_sockets)
+                        
+                        '''create for loop iterating through all the sockets'''
+                        for i in range(num_sockets):
+                            socks[i].send(choice.encode())
+                        socks[i].close()
+                        #socks = create_sockets(ip, port, num_sockets)
+                        
+                        '''
+                        if socks.send(choice.encode()):
                             print("test")
 
                         elif X not in range(numtimes):
                                 print(".")
                                 print("Done")
-                                
+                        '''        
                 print("\n")
                 s_end = time.perf_counter()
                 
                 r_start = time.perf_counter()         
-                databytes = client.recv(8820) 
+                #databytes = client.recv(8820) 
+                
+                '''have each client recv the data from the server'''
+                for i in range(num_sockets+1):
+                    databytes = socks[i].recv(8820)
+                    print("test")
+                    #print(databytes.decode())
                 #uncomment for qub server vvvv
                 #databytes2 = client.recv(8820)      
                 r_end = time.perf_counter()
@@ -164,6 +194,13 @@ def main():
                 print("-Connection Error-:\n-Please check the below message-\n%s" % err)  
                         
         #client.close()
+        
+        
+        
+'''Create a loop iterating through the list of sockets, and then append them to the send function'''
+def looper():
+      print()  
+        
         
 if __name__ == "__main__":
     main()
