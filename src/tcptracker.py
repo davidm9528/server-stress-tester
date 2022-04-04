@@ -2,10 +2,10 @@ import pyshark
 import time
 
 #define interface
-networkInterface = "Adapter for loopback traffic capture"
+networkInterface = "Ethernet"
 
 #define capture object
-capture = pyshark.LiveCapture(interface=networkInterface, bpf_filter='tcp port 1010')
+capture = pyshark.LiveCapture(interface=networkInterface, bpf_filter='tcp port 6011')
 
 for packet in capture.sniff_continuously():
     #adjusted output

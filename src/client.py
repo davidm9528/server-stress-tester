@@ -39,9 +39,11 @@ port = 6011
 #Create the client socket
 #client = socket(AF_INET, SOCK_STREAM)
 
-startOfCon = time.perf_counter()
+startOfRun = time.perf_counter()
 #client.connect((ip, port))
-endOfCon = time.perf_counter()
+endOfRun = time.perf_counter()
+
+runProg = endOfRun - startOfRun
 
 def create_sockets(ip,port,num_sockets):
     '''create multiple client sockets'''
@@ -65,7 +67,7 @@ def graphsock():
 def main():
     print("\n")
     print("-" * 60)
-    print("Connection time (seconds): %s" % (time.perf_counter() - startOfCon))
+    print("Connection time (seconds): %s" % (time.perf_counter() - runProg))
     print("client.py")
     print("-" * 60)
     print("Target: ")
@@ -193,16 +195,9 @@ def main():
                 print("-" * 60)
             
             except OSError as err:
-                print("-Connection Error-:\n-Please check the below message-\n%s" % err)  
+                print("*Connection Error*\n*Please check the below message*\n%s" % err)  
                         
         #client.close()
-        
-        
-        
-'''Create a loop iterating through the list of sockets, and then append them to the send function'''
-def looper():
-      print()  
-        
-        
+                
 if __name__ == "__main__":
     main()
