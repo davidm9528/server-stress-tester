@@ -2,7 +2,7 @@ import socket, time, sys, datetime
 from socket import *
 import os
 #import networkx as nx
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from socket import AF_INET, SOCK_STREAM
 
 #REQUESTS
@@ -77,7 +77,8 @@ def main():
     print("- reset - clears stats")
     print("-" * 20)
 
-    while True:
+    flag = 1
+    while flag == 1:
         choice = input('\n% ')
         args = choice.split()
         
@@ -120,7 +121,6 @@ def main():
                 for X in range(numtimes):
                         counter+=1
                         #client.dup()
-                        print("*", sep='', end='', flush=True)
                         
                         print("How many clients would you like to create? ")
                         num_sockets = input("% ")
@@ -193,11 +193,34 @@ def main():
                 print("Avg: %s" % (float(format_avg_time)) + " seconds")
                 #graphsock()
                 print("-" * 60)
+                
+                print("Would you like to send more data? (y/Y or n/N")
+                decision = input("")
+
+                '''create an if statement to check if the user wants to send more data'''
+                if decision == "y" or decision == "Y":
+                    flag = 1 #keeps the loop going
+                    
+                elif decision == "n" or decision == "N":
+                    flag = 0 #ends the loop
+                
             
             except OSError as err:
                 print("*Connection Error*\n*Please check the below message*\n%s" % err)  
                         
         #client.close()
-                
+
+    print(decision)
+    for i in range(0, num_sockets):
+        print(i+1)
+        plt.plot(i+1, avg_time)
+
+
+        plt.style.use('seaborn-whitegrid')
+        plt.title('Client send and receive average time')
+        plt.xlabel('Number of clients')
+        plt.ylabel('Average Time')
+        plt.show()
+
 if __name__ == "__main__":
     main()
