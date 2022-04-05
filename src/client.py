@@ -4,6 +4,9 @@ import os
 #import networkx as nx
 import matplotlib.pyplot as plt
 from socket import AF_INET, SOCK_STREAM
+import statistics
+
+import numpy as np
 
 #REQUESTS
 file0 = open("txt/davidrequest0.txt")
@@ -90,8 +93,7 @@ def main():
             elif args[0] == "req0":
                 choice = req0
                 numtimes = int(args[1])
-                
-                
+                  
             elif args[0] == "req1":
                 choice = req1
                 numtimes = int(args[1])
@@ -102,11 +104,12 @@ def main():
                 
             elif args[0] == "exit":
                 close()
-                
+            '''    
             else: #valid option, but not any of the requests selected  (improved error handling, rather than crashing the system)
                 print("You have just sent one byte, this is not a valid request.")
                 choice = mock 
                 numtimes = 1 #Just sends mock once, enter more user validation
+            '''
         except:
             choice = None
             numtimes = None
@@ -116,6 +119,7 @@ def main():
             pass
         else:
             try:
+                avg_time_l = []
                 counter = 0
                 s_start = time.perf_counter()
                 for X in range(numtimes):
@@ -130,20 +134,11 @@ def main():
                         '''create for loop iterating through all the sockets'''
                         for i in range(num_sockets):
                             socks[i].send(choice.encode())
-                        #socks[i].close()
-                        #socks = create_sockets(ip, port, num_sockets)
-                        
-                        '''
-                        if socks.send(choice.encode()):
-                            print("test")
-
-                        elif X not in range(numtimes):
-                                print(".")
-                                print("Done")
-                        '''        
+                              
                 print("\n")
                 s_end = time.perf_counter()
-                
+                send_time = s_end - s_start
+                format_send_time = "{:.7f}".format(send_time)
                 
                 if choice != mock:
 
@@ -151,7 +146,7 @@ def main():
                 #databytes = client.recv(8820) 
                 
                 '''have each client recv the data from the server'''
-                for i in range(num_sockets+1):
+                for i in range(num_sockets):
                     databytes = socks[i-1].recv(8820)
                     databytes2 = socks[i-1].recv(8820)
                     
@@ -159,9 +154,19 @@ def main():
                     #uncomment for qub server vvvv
                     #databytes2 = client.recv(8820)      
                     r_end = time.perf_counter()
-                
-                    #print(databytes2.decode('utf-8'))
+                    recv_time = r_end - r_start
+                    format_recv_time = "{:.7f}".format(recv_time)
+                    
+                    avg_time = (send_time + recv_time) / num_sockets
+                    format_avg_time = "{:.7f}".format(avg_time)
+                    roundtime = "{:.7f}".format(send_time + recv_time)
+
                     print(databytes.decode('utf-8') + databytes2.decode('utf-8'))
+                    avg_time_l.append(format_avg_time)
+
+                    '''total the elements of avg_time_l, divide by num_sockets'''
+                    meanavg = sum(float(i) for i in avg_time_l) / num_sockets
+                    format_meanavg = "{:.7f}".format(meanavg)
                     
                 print("-" * 60)
                 print(".")
@@ -177,50 +182,79 @@ def main():
                 print(str(counter) + " " + str(args[0]) + " occurance(s) were sent to " + str(ip) + ":" + str(port))    
                 print("Size of rquest sent to server: " + str((reqsize*numtimes)) + " bytes")  
                 print("Size of response from server: "+ str(len(databytes2)), "bytes")
-                
-                send_time = s_end - s_start
-                recv_time = r_end - r_start
-                avg_time = (send_time + recv_time) / 2
-                
-                format_send_time = "{:.7f}".format(send_time)
-                format_recv_time = "{:.7f}".format(recv_time)
-                format_avg_time = "{:.7f}".format(avg_time)
-                roundtime = "{:.7f}".format(send_time + recv_time)
-                
+
                 print("Time to send %s request(s): %s" % (numtimes, format_send_time) + " seconds")
                 print("Time to receive reply: %s" % (format_recv_time) + " seconds")
                 print("Roundtime: " + roundtime + " seconds")
-                print("Avg: %s" % (float(format_avg_time)) + " seconds")
+                print("Avg: %s" % (float(format_meanavg)) + " seconds")
                 #graphsock()
                 print("-" * 60)
                 
-                print("Would you like to send more data? (y/Y or n/N")
-                decision = input("")
+                print(".")
+                time.sleep(0.5)
+                print("..")
+                time.sleep(0.5)
+                print("...")
+                time.sleep(0.5)
 
-                '''create an if statement to check if the user wants to send more data'''
+                print("\nWould you like to send more data? (y/Y or n/N)")
+                print("-" * 60)
+                decision = input(":")
+                print("-" * 60)
+
+                
                 if decision == "y" or decision == "Y":
+                    print("Please type which request to send:\nI.e. req1 5\nwill send the 1st request 5 times:\n\n- req0 #\n- req1 #\n- req2 #")
+                    print("-" * 60)
                     flag = 1 #keeps the loop going
+                    print(decision)
                     
                 elif decision == "n" or decision == "N":
-                    flag = 0 #ends the loop
+                    flag = 0 #ends the loop   
+                    print(decision)  
                 
-            
+                else:
+
+                    decision != "y" or decision != "Y" or decision != "n" or decision != "N"
+                    flag = 0
+                    print("**Please enter a valid option**")
+
             except OSError as err:
-                print("*Connection Error*\n*Please check the below message*\n%s" % err)  
-                        
-        #client.close()
+                print("**Connection Error**\n**Please check the below message**\n%s" % err)  
 
-    print(decision)
-    for i in range(0, num_sockets):
-        print(i+1)
-        plt.plot(i+1, avg_time)
+    '''Plot a line graph showing the average time for each client to send and receive'''
+    
+    plt.style.use('ggplot')
+
+    #for loop from 0 to length of format_avg_time
+    for i in range(len(avg_time_l)):
+        print(avg_time_l[i])
+
+    
+    '''Have a counter up to the value of num_sockets starting at 1, and store the values in a list'''
+    sockets_l = [i for i in range(1, num_sockets+1)]
+
+    for i in range(len(sockets_l)):
+        print(sockets_l[i])
+
+    #counter = np.cumsum(np.random.randn(num_sockets,1))
+
+    plt.bar(len(sockets_l), avg_time_l, color='red')
+    plt.title('Client send and receive average time')
 
 
-        plt.style.use('seaborn-whitegrid')
-        plt.title('Client send and receive average time')
-        plt.xlabel('Number of clients')
-        plt.ylabel('Average Time')
-        plt.show()
+    plt.xlabel('Number of clients')
+
+    plt.yticks(np.arange(0.0, 4.0, 0.5))
+
+    plt.yticks(np.arange(0, 5, 1))
+    plt.ylabel('Average Time') 
+    
+    '''plt y ticks set to 0.1 increments'''
+    
+
+    
+    plt.show()
 
 if __name__ == "__main__":
     main()
