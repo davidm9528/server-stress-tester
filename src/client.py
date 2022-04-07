@@ -146,7 +146,7 @@ def main():
 
                     avg_time = (send_time + recv_time) / 2
                     format_avg_time = "{:.7f}".format(avg_time)   
-                    roundtime = "{:.7f}".format(send_time + recv_time)
+                    roundtime = "{:.7f}".format(send_time - recv_time)
 
                     #print(databytes.decode('utf-8') + databytes2.decode('utf-8'))
                     list_avgs.append(format_avg_time)
@@ -216,15 +216,20 @@ def main():
     print(avgl)
     print(list_of_s_lists)
     values = range(len(list_of_s_lists))
-
     slope, intercept, r_value, p_value, std_err = linregress(values, avgl)
     print("slope: %f, intercept: %f" % (slope, intercept))
     print("R-squared: %f" % r_value**2)
-    plt.title('Client send and receive average time')
-    plt.xlabel('Number of clients (sending 1 request each)')
-    plt.ylabel('Average Time (seconds)')
     
+
+    fig, ax = plt.subplots(figsize=(12,8))
+
+    plt.title('Client send and receive average time')
+    plt.xlabel('Number of clients (sending 1 request each)', size=12)
+    plt.ylabel('Average Time (seconds)', size=12)
     plt.plot(values, avgl, marker='o', linestyle='--', color='b')
+    for index in range(len(values)):
+        ax.text(values[index], avgl[index], avgl[index], size=12)
+
     plt.plot(values, intercept + slope*values, 'r', label='fitted line')
     plt.xticks(values, list_of_s_lists)
 
@@ -232,7 +237,7 @@ def main():
     #plt.xticks(np.arange(len(list_of_s_lists), num_sockets+1, 1))
     #plt.bar((list_of_s_lists), avgl, color='red')
     #plt.yticks(np.arange((0.00*0.01), 3.5, 0.5))
-
+    plt.grid()
     plt.show()
 
 if __name__ == "__main__":
