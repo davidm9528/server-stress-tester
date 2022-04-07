@@ -1,11 +1,9 @@
-import socket, time, sys, datetime
+import time
 from socket import *
-import os
 #import networkx as nx
 import matplotlib.pyplot as plt
 from socket import AF_INET, SOCK_STREAM
-import statistics
-
+from scipy.stats import linregress
 import numpy as np
 
 #REQUESTS
@@ -38,10 +36,6 @@ port = 6011
 #Wireshark filter
 #ip.addr ==  143.117.100.224 and tcp.port == 6011
 
-
-#Create the client socket
-#client = socket(AF_INET, SOCK_STREAM)
-
 startOfRun = time.perf_counter()
 #client.connect((ip, port))
 endOfRun = time.perf_counter()
@@ -57,10 +51,8 @@ def create_sockets(ip,port,num_sockets):
         client.connect((ip, port))
         sockets.append(client)
     return sockets
-
 '''
 Using NetworkX library, show a graph of the network traffic on the sockets being used
-
 def graphsock():
     G = nx.DiGraph()
     G.add_edge(client.getsockname(), client.getpeername())
@@ -79,7 +71,8 @@ def main():
     print("Please type which request to send:\nI.e. req1 5\nwill send the 1st request 5 times:\n\n- req0 #\n- req1 #\n- req2 #")
     print("- reset - clears stats")
     print("-" * 20)
-
+    list_of_s_lists = []
+    avgl = []
     flag = 1
     while flag == 1:
         choice = input('\n% ')
@@ -119,13 +112,11 @@ def main():
             pass
         else:
             try:
-                avg_time_l = []
+                list_avgs = []
                 counter = 0
                 s_start = time.perf_counter()
                 for X in range(numtimes):
                         counter+=1
-                        #client.dup()
-                        
                         print("How many clients would you like to create? ")
                         num_sockets = input("% ")
                         socks = create_sockets(ip, port, num_sockets)
@@ -134,47 +125,43 @@ def main():
                         '''create for loop iterating through all the sockets'''
                         for i in range(num_sockets):
                             socks[i].send(choice.encode())
-                              
+                s_end = time.perf_counter()              
                 print("\n")
-                s_end = time.perf_counter()
+                
                 send_time = s_end - s_start
                 format_send_time = "{:.7f}".format(send_time)
                 
                 if choice != mock:
-
-                    r_start = time.perf_counter()         
-                #databytes = client.recv(8820) 
+                    r_start = time.perf_counter()          
                 
                 '''have each client recv the data from the server'''
                 for i in range(num_sockets):
                     databytes = socks[i-1].recv(8820)
                     databytes2 = socks[i-1].recv(8820)
-                    
-                    #print(databytes.decode())
-                    #uncomment for qub server vvvv
-                    #databytes2 = client.recv(8820)      
+     
                     r_end = time.perf_counter()
                     recv_time = r_end - r_start
+
                     format_recv_time = "{:.7f}".format(recv_time)
-                    
-                    avg_time = (send_time + recv_time) / num_sockets
-                    format_avg_time = "{:.7f}".format(avg_time)
+
+                    avg_time = (send_time + recv_time) / 2
+                    format_avg_time = "{:.7f}".format(avg_time)   
                     roundtime = "{:.7f}".format(send_time + recv_time)
 
-                    print(databytes.decode('utf-8') + databytes2.decode('utf-8'))
-                    avg_time_l.append(format_avg_time)
-
-                    '''total the elements of avg_time_l, divide by num_sockets'''
-                    meanavg = sum(float(i) for i in avg_time_l) / num_sockets
-                    format_meanavg = "{:.7f}".format(meanavg)
+                    #print(databytes.decode('utf-8') + databytes2.decode('utf-8'))
+                    list_avgs.append(format_avg_time)
                     
+                    '''total the elements of avg_time_l, divide by num_sockets'''
+                    meanavg = sum(float(i) for i in list_avgs) / num_sockets
+                    format_meanavg = "{:.7f}".format(float(meanavg))
+    
                 print("-" * 60)
                 print(".")
-                time.sleep(0.5)
+                time.sleep(0.25)
                 print("..")
-                time.sleep(0.5)
+                time.sleep(0.25)
                 print("...")
-                time.sleep(0.5)
+                time.sleep(0.25)
                     
                 reqsize = len(choice)
                 
@@ -187,34 +174,35 @@ def main():
                 print("Time to receive reply: %s" % (format_recv_time) + " seconds")
                 print("Roundtime: " + roundtime + " seconds")
                 print("Avg: %s" % (float(format_meanavg)) + " seconds")
-                #graphsock()
-                print("-" * 60)
                 
+                print("-" * 60)
                 print(".")
-                time.sleep(0.5)
+                time.sleep(0.25)
                 print("..")
-                time.sleep(0.5)
+                time.sleep(0.25)
                 print("...")
-                time.sleep(0.5)
+                time.sleep(0.25)
 
+                sockets_l = [i for i in range(1, num_sockets+1)]
+            
                 print("\nWould you like to send more data? (y/Y or n/N)")
                 print("-" * 60)
                 decision = input(":")
                 print("-" * 60)
 
-                
                 if decision == "y" or decision == "Y":
                     print("Please type which request to send:\nI.e. req1 5\nwill send the 1st request 5 times:\n\n- req0 #\n- req1 #\n- req2 #")
                     print("-" * 60)
+                    list_of_s_lists.append(len(sockets_l))
+                    avgl.append(meanavg)
                     flag = 1 #keeps the loop going
-                    print(decision)
-                    
-                elif decision == "n" or decision == "N":
+                    print(decision)   
+                elif decision == "n" or decision == "N": 
+                    list_of_s_lists.append(len(sockets_l))
+                    avgl.append(meanavg)
                     flag = 0 #ends the loop   
                     print(decision)  
-                
                 else:
-
                     decision != "y" or decision != "Y" or decision != "n" or decision != "N"
                     flag = 0
                     print("**Please enter a valid option**")
@@ -222,38 +210,29 @@ def main():
             except OSError as err:
                 print("**Connection Error**\n**Please check the below message**\n%s" % err)  
 
-    '''Plot a line graph showing the average time for each client to send and receive'''
-    
-    plt.style.use('ggplot')
+    #print(list_avgs)
+    #print(meanavg)
 
-    #for loop from 0 to length of format_avg_time
-    for i in range(len(avg_time_l)):
-        print(avg_time_l[i])
+    print(avgl)
+    print(list_of_s_lists)
+    values = range(len(list_of_s_lists))
 
-    
-    '''Have a counter up to the value of num_sockets starting at 1, and store the values in a list'''
-    sockets_l = [i for i in range(1, num_sockets+1)]
-
-    for i in range(len(sockets_l)):
-        print(sockets_l[i])
-
-    #counter = np.cumsum(np.random.randn(num_sockets,1))
-
-    plt.bar(len(sockets_l), avg_time_l, color='red')
+    slope, intercept, r_value, p_value, std_err = linregress(values, avgl)
+    print("slope: %f, intercept: %f" % (slope, intercept))
+    print("R-squared: %f" % r_value**2)
     plt.title('Client send and receive average time')
-
-
-    plt.xlabel('Number of clients')
-
-    plt.yticks(np.arange(0.0, 4.0, 0.5))
-
-    plt.yticks(np.arange(0, 5, 1))
-    plt.ylabel('Average Time') 
+    plt.xlabel('Number of clients (sending 1 request each)')
+    plt.ylabel('Average Time (seconds)')
     
-    '''plt y ticks set to 0.1 increments'''
-    
+    plt.plot(values, avgl, marker='o', linestyle='--', color='b')
+    plt.plot(values, intercept + slope*values, 'r', label='fitted line')
+    plt.xticks(values, list_of_s_lists)
 
-    
+    #plt.style.use('ggplot')
+    #plt.xticks(np.arange(len(list_of_s_lists), num_sockets+1, 1))
+    #plt.bar((list_of_s_lists), avgl, color='red')
+    #plt.yticks(np.arange((0.00*0.01), 3.5, 0.5))
+
     plt.show()
 
 if __name__ == "__main__":
