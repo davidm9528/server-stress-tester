@@ -1,6 +1,7 @@
 import time
 from socket import *
-#import networkx as nx
+from turtle import color
+import networkx as nx
 import matplotlib.pyplot as plt
 from socket import AF_INET, SOCK_STREAM
 from scipy.stats import linregress
@@ -48,7 +49,9 @@ def create_sockets(ip,port,num_sockets):
     sockets = []
     for i in range(int(num_sockets)):
         client = socket.socket(AF_INET, SOCK_STREAM)
+        client.settimeout(10)
         client.connect((ip, port))
+        client.settimeout(None)
         sockets.append(client)
     return sockets
 '''
@@ -62,7 +65,7 @@ def graphsock():
 def main():
     print("\n")
     print("-" * 60)
-    print("Connection time (seconds): %s" % (time.perf_counter() - runProg))
+    print("Script load time (seconds): %s" % (time.perf_counter() - runProg))
     print("client.py")
     print("-" * 60)
     print("Target: ")
@@ -121,6 +124,7 @@ def main():
                         num_sockets = input("% ")
                         socks = create_sockets(ip, port, num_sockets)
                         num_sockets = int(num_sockets)
+                        
                         
                         '''create for loop iterating through all the sockets'''
                         for i in range(num_sockets):
@@ -209,12 +213,24 @@ def main():
 
             except OSError as err:
                 print("**Connection Error**\n**Please check the below message**\n%s" % err)  
+                print("-" * 60)
+                print("Please type which request to send:\nI.e. req1 5\nwill send the 1st request 5 times:\n\n- req0 #\n- req1 #\n- req2 #")
 
-    #print(list_avgs)
-    #print(meanavg)
+    '''Using Networkx, create a node for the number of sockets, and draw a line between each socket and the server'''
+    G = nx.Graph()
+    G.add_node(ip, weight=10, UTM=("13S", 382871, 3972649))
+    for i in range(len(list_of_s_lists)):
+        G.add_node(list_of_s_lists[i], color='r')
+        G.add_edge(ip, list_of_s_lists[i])
+        G.add_edge(list_of_s_lists[i], ip)
+        '''display graph'''
+    nx.draw(G,with_labels=True)
+    plt.show()
 
-    print(avgl)
-    print(list_of_s_lists)
+    '''Print each value of avgl beside the corresponding value of list_of_s_lists'''
+    for i in range(len(avgl)):
+        print("#",list_of_s_lists[i],"-", avgl[i],"s")
+
     values = range(len(list_of_s_lists))
     slope, intercept, r_value, p_value, std_err = linregress(values, avgl)
     print("slope: %f, intercept: %f" % (slope, intercept))
@@ -233,12 +249,17 @@ def main():
     plt.plot(values, intercept + slope*values, 'r', label='fitted line')
     plt.xticks(values, list_of_s_lists)
 
+    
+    
+
+
     #plt.style.use('ggplot')
     #plt.xticks(np.arange(len(list_of_s_lists), num_sockets+1, 1))
     #plt.bar((list_of_s_lists), avgl, color='red')
     #plt.yticks(np.arange((0.00*0.01), 3.5, 0.5))
     plt.grid()
     plt.show()
+    
 
 if __name__ == "__main__":
     main()
