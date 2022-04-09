@@ -1,0 +1,8 @@
+To run client.py, ensure the following libraries are installed in the C: drive:
+---
+pip install matplotlib
+pip install scipy
+pip install numpy
+pip install networkx
+pip install socket
+---

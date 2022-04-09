@@ -1,5 +1,6 @@
 server_qub
-.vscode/*
+.vscode
 .vs
 todo.txt
 .idea/*
+flowchart.ai
