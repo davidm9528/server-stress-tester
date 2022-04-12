@@ -54,14 +54,7 @@ def create_sockets(ip,port,num_sockets):
         client.settimeout(None)
         sockets.append(client)
     return sockets
-'''
-Using NetworkX library, show a graph of the network traffic on the sockets being used
-def graphsock():
-    G = nx.DiGraph()
-    G.add_edge(client.getsockname(), client.getpeername())
-    nx.draw_networkx(G, with_labels=True)
-    plt.show()
-'''          
+      
 def main():
     print("\n")
     print("-" * 60)
@@ -100,12 +93,7 @@ def main():
                 
             elif args[0] == "exit":
                 close()
-            '''    
-            else: #valid option, but not any of the requests selected  (improved error handling, rather than crashing the system)
-                print("You have just sent one byte, this is not a valid request.")
-                choice = mock 
-                numtimes = 1 #Just sends mock once, enter more user validation
-            '''
+
         except:
             choice = None
             numtimes = None
@@ -216,7 +204,6 @@ def main():
                 print("-" * 60)
                 print("Please type which request to send:\nI.e. req1 5\nwill send the 1st request 5 times:\n\n- req0 #\n- req1 #\n- req2 #")
 
-    '''Using Networkx, create a node for the number of sockets, and draw a line between each socket and the server'''
     G = nx.Graph()
     G.add_node(ip, weight=10, UTM=("13S", 382871, 3972649))
     for i in range(len(list_of_s_lists)):
@@ -227,7 +214,6 @@ def main():
     nx.draw(G,with_labels=True)
     plt.show()
 
-    '''Print each value of avgl beside the corresponding value of list_of_s_lists'''
     for i in range(len(avgl)):
         print("#",list_of_s_lists[i],"-", avgl[i],"s")
 
@@ -236,7 +222,6 @@ def main():
     print("slope: %f, intercept: %f" % (slope, intercept))
     print("R-squared: %f" % r_value**2)
     
-
     fig, ax = plt.subplots(figsize=(12,8))
 
     plt.title('Client send and receive average time')
@@ -249,16 +234,9 @@ def main():
     plt.plot(values, intercept + slope*values, 'r', label='fitted line')
     plt.xticks(values, list_of_s_lists)
 
-    
-    
-
-
-    #plt.style.use('ggplot')
-    #plt.xticks(np.arange(len(list_of_s_lists), num_sockets+1, 1))
-    #plt.bar((list_of_s_lists), avgl, color='red')
-    #plt.yticks(np.arange((0.00*0.01), 3.5, 0.5))
     plt.grid()
     plt.show()
+    
     
 
 if __name__ == "__main__":

@@ -27,7 +27,7 @@ def main():
 
     s.bind((ip,port))
 
-    s.listen(0)
+    s.listen(10)
 
     conn, address = s.accept()
     '''
