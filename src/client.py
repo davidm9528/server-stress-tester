@@ -44,7 +44,7 @@ endOfRun = time.perf_counter()
 runProg = endOfRun - startOfRun
 
 def create_sockets(ip,port,num_sockets):
-    '''create multiple client sockets'''
+    '''creating multiple client sockets'''
     import socket
     sockets = []
     for i in range(int(num_sockets)):
@@ -54,6 +54,15 @@ def create_sockets(ip,port,num_sockets):
         client.settimeout(None)
         sockets.append(client)
     return sockets
+
+def sleeper():
+    print("-" * 60)
+    print(".")
+    time.sleep(0.25)
+    print("..")
+    time.sleep(0.25)
+    print("...")
+    time.sleep(0.25)
       
 def main():
     print("\n")
@@ -94,6 +103,10 @@ def main():
             elif args[0] == "exit":
                 close()
 
+            else:
+                print("\nInvalid input. Please try again.\n")
+                continue
+
         except:
             choice = None
             numtimes = None
@@ -106,19 +119,20 @@ def main():
                 list_avgs = []
                 counter = 0
                 s_start = time.perf_counter()
+                
+                print("How many clients would you like to create? ")
+                num_sockets = input("% ")
+                
                 for X in range(numtimes):
+                        
                         counter+=1
-                        print("How many clients would you like to create? ")
-                        num_sockets = input("% ")
                         socks = create_sockets(ip, port, num_sockets)
                         num_sockets = int(num_sockets)
                         
-                        
-                        '''create for loop iterating through all the sockets'''
+                        '''for loop iterating through all the sockets'''
                         for i in range(num_sockets):
                             socks[i].send(choice.encode())
                 s_end = time.perf_counter()              
-                print("\n")
                 
                 send_time = s_end - s_start
                 format_send_time = "{:.7f}".format(send_time)
@@ -126,7 +140,7 @@ def main():
                 if choice != mock:
                     r_start = time.perf_counter()          
                 
-                '''have each client recv the data from the server'''
+                '''each client recv the data from the server'''
                 for i in range(num_sockets):
                     databytes = socks[i-1].recv(8820)
                     databytes2 = socks[i-1].recv(8820)
@@ -147,13 +161,7 @@ def main():
                     meanavg = sum(float(i) for i in list_avgs) / num_sockets
                     format_meanavg = "{:.7f}".format(float(meanavg))
     
-                print("-" * 60)
-                print(".")
-                time.sleep(0.25)
-                print("..")
-                time.sleep(0.25)
-                print("...")
-                time.sleep(0.25)
+                sleeper()
                     
                 reqsize = len(choice)
                 
@@ -167,13 +175,7 @@ def main():
                 print("Roundtime: " + roundtime + " seconds")
                 print("Avg: %s" % (float(format_meanavg)) + " seconds")
                 
-                print("-" * 60)
-                print(".")
-                time.sleep(0.25)
-                print("..")
-                time.sleep(0.25)
-                print("...")
-                time.sleep(0.25)
+                sleeper()
 
                 sockets_l = [i for i in range(1, num_sockets+1)]
             
@@ -181,28 +183,55 @@ def main():
                 print("-" * 60)
                 decision = input(":")
                 print("-" * 60)
-
+                
                 if decision == "y" or decision == "Y":
                     print("Please type which request to send:\nI.e. req1 5\nwill send the 1st request 5 times:\n\n- req0 #\n- req1 #\n- req2 #")
                     print("-" * 60)
                     list_of_s_lists.append(len(sockets_l))
                     avgl.append(meanavg)
                     flag = 1 #keeps the loop going
-                    print(decision)   
+
                 elif decision == "n" or decision == "N": 
                     list_of_s_lists.append(len(sockets_l))
                     avgl.append(meanavg)
-                    flag = 0 #ends the loop   
-                    print(decision)  
-                else:
-                    decision != "y" or decision != "Y" or decision != "n" or decision != "N"
-                    flag = 0
-                    print("**Please enter a valid option**")
+                    
+                    print("Would you like to see response from Server? (y/Y or n/N)")
+                    print("-" * 60)
+                    decision_resp = input(":")
+                    print("-" * 60)
 
+                    if decision_resp == "y" or decision_resp == "Y":
+                        print(databytes.decode('utf-8') + databytes2.decode('utf-8'))
+                        print("-" * 60)
+                        flag = 0
+
+                    elif decision_resp == "n" or decision_resp == "N":
+                        flag = 0 #ends the loop  
+
+                else:
+                    print("\nInvalid input...\n")
+                    flag = 0
+                    
+                    
             except OSError as err:
                 print("**Connection Error**\n**Please check the below message**\n%s" % err)  
                 print("-" * 60)
                 print("Please type which request to send:\nI.e. req1 5\nwill send the 1st request 5 times:\n\n- req0 #\n- req1 #\n- req2 #")
+    
+    sleeper()
+
+    print("-" * 15 + "Stats" + "-" * 15)
+    values = range(len(list_of_s_lists))
+    slope, intercept, r_value, p_value, std_err = linregress(values, avgl)
+    print("slope: %f, intercept: %f" % (slope, intercept))
+    print("R-squared: %f" % r_value**2)
+
+    for i in range(len(avgl)):
+        print("#",list_of_s_lists[i],"-", avgl[i],"s")
+
+    sleeper()
+
+    print("\nEnd of program...")
 
     G = nx.Graph()
     G.add_node(ip, weight=10, UTM=("13S", 382871, 3972649))
@@ -214,14 +243,6 @@ def main():
     nx.draw(G,with_labels=True)
     plt.show()
 
-    for i in range(len(avgl)):
-        print("#",list_of_s_lists[i],"-", avgl[i],"s")
-
-    values = range(len(list_of_s_lists))
-    slope, intercept, r_value, p_value, std_err = linregress(values, avgl)
-    print("slope: %f, intercept: %f" % (slope, intercept))
-    print("R-squared: %f" % r_value**2)
-    
     fig, ax = plt.subplots(figsize=(12,8))
 
     plt.title('Client send and receive average time')
@@ -236,8 +257,6 @@ def main():
 
     plt.grid()
     plt.show()
-    
-    
 
 if __name__ == "__main__":
     main()
