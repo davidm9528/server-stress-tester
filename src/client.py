@@ -118,8 +118,6 @@ def main():
             try:
                 list_avgs = []
                 counter = 0
-                
-                
                 print("How many clients would you like to create? ")
                 num_sockets = input("% ")
                 s_start = time.perf_counter()
@@ -198,24 +196,21 @@ def main():
                     print("Would you like to see response from Server? (y/Y or n/N)")
                     print("-" * 60)
                     decision_resp = input(":")
-                    print("-" * 60)
-
+                    total_sockets = sum(int(i) for i in list_of_s_lists)
                     if decision_resp == "y" or decision_resp == "Y":
                         print(databytes.decode('utf-8') + databytes2.decode('utf-8'))
                         print("-" * 60)
-                        '''total the number of elements in list_of_s_lists'''
-                        total_sockets = sum(int(i) for i in list_of_s_lists)
                         print("Response(s): " + str(total_sockets))
                         flag = 0
 
                     elif decision_resp == "n" or decision_resp == "N":
+                        print("Response(s): " + str(total_sockets))
                         flag = 0 #ends the loop  
 
                 else:
                     print("\nInvalid input...\n")
                     flag = 0
-                    
-                    
+                      
             except OSError as err:
                 print("**Connection Error**\n**Please check the below message**\n%s" % err)  
                 print("-" * 60)
