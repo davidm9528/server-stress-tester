@@ -118,11 +118,11 @@ def main():
             try:
                 list_avgs = []
                 counter = 0
-                s_start = time.perf_counter()
+                
                 
                 print("How many clients would you like to create? ")
                 num_sockets = input("% ")
-                
+                s_start = time.perf_counter()
                 for X in range(numtimes):
                         
                         counter+=1
@@ -203,6 +203,9 @@ def main():
                     if decision_resp == "y" or decision_resp == "Y":
                         print(databytes.decode('utf-8') + databytes2.decode('utf-8'))
                         print("-" * 60)
+                        '''total the number of elements in list_of_s_lists'''
+                        total_sockets = sum(int(i) for i in list_of_s_lists)
+                        print("Response(s): " + str(total_sockets))
                         flag = 0
 
                     elif decision_resp == "n" or decision_resp == "N":
@@ -231,7 +234,8 @@ def main():
 
     sleeper()
 
-    print("\nEnd of program...")
+    print("\nEnd of program...\n")
+    print("David Mackenzie\n40238376\ndmackenzie01@qub.ac.uk\n")
 
     G = nx.Graph()
     G.add_node(ip, weight=10, UTM=("13S", 382871, 3972649))
@@ -239,10 +243,9 @@ def main():
         G.add_node(list_of_s_lists[i], color='r')
         G.add_edge(ip, list_of_s_lists[i])
         G.add_edge(list_of_s_lists[i], ip)
-        '''display graph'''
-    nx.draw(G,with_labels=True)
+    nx.draw(G, with_labels=True)
     plt.show()
-
+  
     fig, ax = plt.subplots(figsize=(12,8))
 
     plt.title('Client send and receive average time')
