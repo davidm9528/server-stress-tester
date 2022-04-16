@@ -120,6 +120,13 @@ def main():
                 counter = 0
                 print("How many clients would you like to create? ")
                 num_sockets = input("% ")
+                '''error handler for num_sockets, if not an integer'''
+                try:
+                    num_sockets = int(num_sockets)
+                except:
+                    print("\nInvalid input. Please try again.\n")
+                    continue
+
                 s_start = time.perf_counter()
                 for X in range(numtimes):
                         
