@@ -120,11 +120,11 @@ def main():
                 counter = 0
                 print("How many clients would you like to create? ")
                 num_sockets = input("% ")
-                '''error handler for num_sockets, if not an integer'''
+                
                 try:
                     num_sockets = int(num_sockets)
                 except:
-                    print("\nInvalid input. Please try again.\n")
+                    print("\nInvalid input. Please start again.\n")
                     continue
 
                 s_start = time.perf_counter()
@@ -149,6 +149,8 @@ def main():
                 for i in range(num_sockets):
                     databytes = socks[i-1].recv(8820)
                     databytes2 = socks[i-1].recv(8820)
+
+                    databytestotal = databytes + databytes2
      
                     r_end = time.perf_counter()
                     recv_time = r_end - r_start
@@ -157,7 +159,7 @@ def main():
 
                     avg_time = (send_time + recv_time) / 2
                     format_avg_time = "{:.7f}".format(avg_time)   
-                    roundtime = "{:.7f}".format(send_time - recv_time)
+                    roundtime = "{:.7f}".format(send_time + recv_time)
 
                     #print(databytes.decode('utf-8') + databytes2.decode('utf-8'))
                     list_avgs.append(format_avg_time)
@@ -173,7 +175,7 @@ def main():
                 print("-" * 15 + "Stats" + "-" * 15)
                 print(str(counter) + " " + str(args[0]) + " occurance(s) were sent to " + str(ip) + ":" + str(port))    
                 print("Size of rquest sent to server: " + str((reqsize*numtimes)) + " bytes")  
-                print("Size of response from server: "+ str(len(databytes2)), "bytes")
+                print("Size of response from server: "+ str(len(databytestotal)), "bytes")
 
                 print("Time to send %s request(s): %s" % (numtimes, format_send_time) + " seconds")
                 print("Time to receive reply: %s" % (format_recv_time) + " seconds")
@@ -187,6 +189,13 @@ def main():
                 print("\nWould you like to send more data? (y/Y or n/N)")
                 print("-" * 60)
                 decision = input(":")
+
+                '''error handling for invalid decision'''
+                if decision != "y" and decision != "Y" and decision != "n" and decision != "N":
+                    print("\nInvalid input. Please start again.\n")
+                    continue
+                
+
                 print("-" * 60)
                 
                 if decision == "y" or decision == "Y":
@@ -203,6 +212,12 @@ def main():
                     print("Would you like to see response from Server? (y/Y or n/N)")
                     print("-" * 60)
                     decision_resp = input(":")
+
+                    '''error handling for invalid decision'''
+                    if decision_resp != "y" and decision_resp != "Y" and decision_resp != "n" and decision_resp != "N":
+                        print("\nInvalid input. Please start again.\n")
+                        continue
+
                     total_sockets = sum(int(i) for i in list_of_s_lists)
                     if decision_resp == "y" or decision_resp == "Y":
                         print(databytes.decode('utf-8') + databytes2.decode('utf-8'))
