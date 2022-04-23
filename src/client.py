@@ -104,7 +104,7 @@ def main():
                 close()
 
             else:
-                print("\nInvalid input. Please try again.\n")
+                print("\nInvalid input. Please start again (req# #).\n")
                 continue
 
         except:
@@ -124,7 +124,7 @@ def main():
                 try:
                     num_sockets = int(num_sockets)
                 except:
-                    print("\nInvalid input. Please start again.\n")
+                    print("\nInvalid input. Please start again (req# #).\n")
                     continue
 
                 s_start = time.perf_counter()
@@ -192,7 +192,7 @@ def main():
 
                 '''error handling for invalid decision'''
                 if decision != "y" and decision != "Y" and decision != "n" and decision != "N":
-                    print("\nInvalid input. Please start again.\n")
+                    print("\nInvalid input. Please start again (req# #).\n")
                     continue
                 
 
@@ -215,7 +215,7 @@ def main():
 
                     '''error handling for invalid decision'''
                     if decision_resp != "y" and decision_resp != "Y" and decision_resp != "n" and decision_resp != "N":
-                        print("\nInvalid input. Please start again.\n")
+                        print("\nInvalid input. Please start again (req# #).\n")
                         continue
 
                     total_sockets = sum(int(i) for i in list_of_s_lists)
