@@ -56,7 +56,7 @@ def create_sockets(ip,port,num_sockets):
     return sockets
 
 def sleeper():
-    print("-" * 60)
+    
     print(".")
     time.sleep(0.25)
     print("..")
@@ -71,7 +71,7 @@ def main():
     print("client.py")
     print("-" * 60)
     print("Target: ")
-    print("Server is running on %s port %s" % (ip, port))
+    print(f"Server is running on {ip} port {port}")
     print("-" * 60)
     print("Please type which request to send:\nI.e. req1 5\nwill send the 1st request 5 times:\n\n- req0 #\n- req1 #\n- req2 #")
     print("- reset - clears stats")
@@ -120,9 +120,11 @@ def main():
                 counter = 0
                 print("How many clients would you like to create? ")
                 num_sockets = input("% ")
+                print("---------\n*Sending*")
                 
                 try:
                     num_sockets = int(num_sockets)
+                    sockets_l = [i for i in range(1, num_sockets+1)]
                 except:
                     print("\nInvalid input. Please start again (req# #).\n")
                     continue
@@ -177,14 +179,15 @@ def main():
                 print("Size of rquest sent to server: " + str((reqsize*numtimes)) + " bytes")  
                 print("Size of response from server: "+ str(len(databytestotal)), "bytes")
 
-                print("Time to send %s request(s): %s" % (numtimes, format_send_time) + " seconds")
-                print("Time to receive reply: %s" % (format_recv_time) + " seconds")
-                print("Roundtime: " + roundtime + " seconds")
+                print(f"Time to send {numtimes} request(s): {format_send_time} seconds")
+                print(f"Time to receive reply: {format_recv_time} seconds")
+                print(f"Roundtime: {roundtime} seconds")
                 print("Avg: %s" % (float(format_meanavg)) + " seconds")
-                
+                print("-" * 60)
                 sleeper()
 
                 sockets_l = [i for i in range(1, num_sockets+1)]
+                
             
                 print("\nWould you like to send more data? (y/Y or n/N)")
                 print("-" * 60)
@@ -241,18 +244,23 @@ def main():
     sleeper()
 
     print("-" * 15 + "Stats" + "-" * 15)
-    values = range(len(list_of_s_lists))
-    slope, intercept, r_value, p_value, std_err = linregress(values, avgl)
-    print("slope: %f, intercept: %f" % (slope, intercept))
-    print("R-squared: %f" % r_value**2)
+
+    if len(list_of_s_lists) > 1:
+        values = range(len(list_of_s_lists))
+        slope, intercept, r_value, p_value, std_err = linregress(values, avgl)
+        print(f"slope: {slope}, intercept: {intercept}")
+        print("R-squared: %f" % r_value**2)
 
     for i in range(len(avgl)):
-        print("#",list_of_s_lists[i],"-", avgl[i],"s")
+        print(f"# {list_of_s_lists[i]} - {avgl[i]}s")
 
     sleeper()
+    print("-" * 60)
 
     print("\nEnd of program...\n")
     print("David Mackenzie\n40238376\ndmackenzie01@qub.ac.uk\n")
+
+    time.sleep(1.5)
 
     G = nx.Graph()
     G.add_node(ip, weight=10, UTM=("13S", 382871, 3972649))
@@ -265,18 +273,20 @@ def main():
   
     fig, ax = plt.subplots(figsize=(12,8))
 
-    plt.title('Client send and receive average time')
-    plt.xlabel('Number of clients (sending 1 request each)', size=12)
-    plt.ylabel('Average Time (seconds)', size=12)
-    plt.plot(values, avgl, marker='o', linestyle='--', color='b')
-    for index in range(len(values)):
-        ax.text(values[index], avgl[index], avgl[index], size=12)
+    if len(list_of_s_lists) > 1:
+        time.sleep(1.5)
+        plt.title('Client send and receive average time')
+        plt.xlabel('Number of clients (sending 1 request each)', size=12)
+        plt.ylabel('Average Time (seconds)', size=12)
+        plt.plot(values, avgl, marker='o', linestyle='--', color='b')
+        for index in range(len(values)):
+            ax.text(values[index], avgl[index], avgl[index], size=12)
 
-    plt.plot(values, intercept + slope*values, 'r', label='fitted line')
-    plt.xticks(values, list_of_s_lists)
+        plt.plot(values, intercept + slope*values, 'r', label='fitted line')
+        plt.xticks(values, list_of_s_lists)
 
-    plt.grid()
-    plt.show()
+        plt.grid()
+        plt.show()
 
 if __name__ == "__main__":
     main()
